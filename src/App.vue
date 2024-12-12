@@ -1,14 +1,18 @@
 <script setup lang="ts">
-
+import Keyboard from './components/Keyboard.vue'
 </script>
 
 <template>
   <header>Makrowave Type</header>
   <main>
-    <Key :key="'l'" :type="''">L</Key>
+    <Keyboard></Keyboard>
   </main>
 </template>
 
 <style scoped>
-
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
