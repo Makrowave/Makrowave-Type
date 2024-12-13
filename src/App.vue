@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Keyboard from './components/Keyboard.vue'
+import TypingText from './components/TypingText.vue'
 </script>
 
 <template>
   <header>Makrowave Type</header>
   <main>
-    <Keyboard></Keyboard>
+    <TypingText />
+    <Keyboard />
   </main>
 </template>
 

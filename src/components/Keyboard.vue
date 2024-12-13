@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { keys } from '@/const/keys'
-import Key from './Key.vue'
+import Key from './KeyboardKey.vue'
 const keyLayout = keys
 </script>
 
