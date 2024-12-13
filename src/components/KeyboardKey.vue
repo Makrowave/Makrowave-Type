@@ -1,23 +1,40 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   keyName: string
   altKeyName: string
-}>()
+  special?: boolean
+  width?: string
+  location?: number
+  togglable?: boolean
+}>(), { special: false, width: '40px', location: 0, togglable: false })
 
 const isPressed = ref<boolean>(false)
-const pressedClass = ref('pressed')
-const normalClass = ref('normal')
+const keyClass = computed(() => {
+  let returnClass;
+  returnClass = props.special ? "" : "normal-size"
+  returnClass += isPressed.value ? " pressed" : " normal"
+  return returnClass
+})
 
 const handleKeyDown = (event: KeyboardEvent) => {
-  if (event.key === props.keyName) isPressed.value = true
-  if (event.key === props.altKeyName) isPressed.value = true
+  if (props.togglable && event.key === props.keyName && event.location === props.location) {
+    isPressed.value = !isPressed.value
+    return;
+  }
+  if (event.key === props.keyName && event.location === props.location)
+    isPressed.value = true
+  if (event.key === props.altKeyName && event.location === props.location)
+    isPressed.value = true
 }
 
 const handleKeyUp = (event: KeyboardEvent) => {
-  if (event.key === props.keyName) isPressed.value = false
-  if (event.key === props.altKeyName) isPressed.value = false
+  if (props.togglable) return;
+  if (event.key === props.keyName && event.location === props.location)
+    isPressed.value = false
+  if (event.key === props.altKeyName && event.location === props.location)
+    isPressed.value = false
 }
 onMounted(() => {
   window.addEventListener('keydown', handleKeyDown)
@@ -30,31 +47,36 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li :class="isPressed ? pressedClass : normalClass">
+  <li :class="keyClass" :style="special && props.width ? { width: props.width, height: '40px' } : {}">
     <span class="primary">{{ keyName }}</span>
     <span class="secondary">{{ altKeyName }}</span>
   </li>
 </template>
 
 <style scoped>
+.normal-size {
+  height: 40px;
+  width: 40px;
+}
+
 .normal {
   background-color: gray;
-  height: 40px;
-  width: 40px;
   border: 1px solid white;
 }
+
 .pressed {
   background-color: cadetblue;
-  height: 40px;
-  width: 40px;
   border: 1px solid white;
 }
+
 .primary {
   position: absolute;
+  white-space: pre;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .secondary {
   position: absolute;
   top: 0%;
@@ -63,6 +85,7 @@ onUnmounted(() => {
   padding-top: 2px;
   padding-right: 2px;
 }
+
 li {
   position: relative;
 }

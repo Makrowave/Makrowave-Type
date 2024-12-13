@@ -38,7 +38,12 @@ const changeState = (state: KeyStates) => {
 const handleKeyDown = (event: KeyboardEvent) => {
   if (!active.value) return
   const letter = event.key
-  if (letter === 'Shift' || letter === 'Alt' || letter === 'Ctrl') return
+  if (letter === 'Shift'
+    || letter === 'Alt'
+    || letter === 'Control'
+    || letter === 'CapsLock'
+  ) { return }
+
   if (letter === currentWord.value[currentLetterIndex.value]) {
     if (!letterMistake.value) {
       changeState(KeyStates.Correct)
@@ -77,12 +82,12 @@ onUnmounted(() => {
 })
 </script>
 <template>
-<div class="wrapper">
-  <div>
-    <Timer :started="active"/>
+  <div class="wrapper">
+    <div>
+      <Timer :started="active" />
+    </div>
+    <TypingText :text="text" :states="mask" />
   </div>
-  <TypingText :text="text" :states="mask" />
-</div>
 </template>
 
 <style scoped>
