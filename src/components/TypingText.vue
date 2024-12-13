@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import { loremIpsum } from '@/const/loremIpsum'
-import { ref } from 'vue'
 import TypingWord from './TypingWord.vue'
-const text = ref<Array<string>>(loremIpsum.split(' '))
+const props = defineProps<{ text: Array<string>; states: Array<string> }>()
+const mergeData = () => {
+  const text = props.text
+  const states = props.states
+  if (text.length !== states.length) {
+    throw new Error('Arrays must be of the same length')
+  }
+
+  return text.map((element, index) => ({
+    word: element,
+    states: states[index],
+  }))
+}
 </script>
 <template>
   <div class="wrapper">
-    <TypingWord v-for="word in text" :text="word + '&#160'" />
+    <TypingWord v-for="row in mergeData()" :text="row.word" :states="row.states" />
   </div>
 </template>
 <style scoped>

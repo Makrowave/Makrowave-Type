@@ -1,0 +1,78 @@
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { loremIpsum } from '@/const/loremIpsum'
+import TypingText from './TypingText.vue'
+import { KeyStates } from '@/const/states'
+
+const prepText = (inputText: string): Array<string> => {
+  let resultText = inputText.split(' ').map((word) => word + ' ')
+  resultText[resultText.length - 1] = resultText[resultText.length - 1].trim()
+  return resultText
+}
+const createStatesMask = (text: Array<string>) => {
+  let mask = JSON.parse(JSON.stringify(text)) as Array<string>
+  return mask.map((word) => word.replace(/./g, KeyStates.Inactive))
+}
+
+const text = ref<Array<string>>(prepText(loremIpsum))
+const mask = ref<Array<string>>(createStatesMask(text.value))
+const states = ref<Array<string>>()
+const textLength = computed<number>(() => text.value.length)
+const currentWord = computed<string>(() => text.value[currentWordIndex.value])
+const currentWordLength = computed<number>(() => text.value[currentWordIndex.value].length)
+const currentWordIndex = ref<number>(0)
+const currentLetterIndex = ref<number>(0)
+const letterMistake = ref<boolean>(false)
+const active = ref<boolean>(true)
+
+const changeState = (state: KeyStates) => {
+  const maskWord = mask.value[currentWordIndex.value]
+  const index = currentLetterIndex.value
+  mask.value[currentWordIndex.value] = maskWord.slice(0, index) + state + maskWord.slice(index + 1)
+}
+
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (!active.value) return
+  const letter = event.key
+  if (letter === 'Shift' || letter === 'Alt' || letter === 'Ctrl') return
+  if (letter === currentWord.value[currentLetterIndex.value]) {
+    if (!letterMistake.value) {
+      changeState(KeyStates.Correct)
+    } else {
+      changeState(KeyStates.Incorrect)
+    }
+    letterMistake.value = false
+    //Handle the fact that letter is correct graphically
+    //Check for word's end
+    currentLetterIndex.value++
+    if (currentLetterIndex.value >= currentWordLength.value) {
+      currentLetterIndex.value = 0
+      //Check for text end
+      currentWordIndex.value++
+      if (currentWordIndex.value >= textLength.value) {
+        //Finish
+        active.value = false
+        return
+      }
+    }
+    changeState(KeyStates.Current)
+  } else {
+    letterMistake.value = true
+  }
+}
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyDown)
+  //Set first key to current
+  const maskWord = mask.value[currentWordIndex.value]
+  mask.value[0] = KeyStates.Current + maskWord.slice(1)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
+</script>
+<template>
+  <TypingText :text="text" :states="mask" />
+</template>
+
+<style></style>

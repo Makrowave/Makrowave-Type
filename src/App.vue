@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Keyboard from './components/Keyboard.vue'
-import TypingText from './components/TypingText.vue'
+import TypingWindow from './components/TypingWindow.vue'
 </script>
 
 <template>
   <header>Makrowave Type</header>
   <main>
-    <TypingText />
+    <TypingWindow />
     <Keyboard />
   </main>
 </template>

@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { KeyStates } from '@/const/states'
 import { computed, ref } from 'vue'
-const curState = ref<'inactive' | 'current' | 'incorrect' | 'correct'>('inactive')
+const props = defineProps<{ state: string }>()
 
 const letterClass = computed(() => {
-  switch (curState.value) {
-    case 'current':
-      return 'current'
-    case 'incorrect':
+  let resultClass
+  switch (props.state) {
+    case KeyStates.Correct:
+      return 'correct'
+    case KeyStates.Incorrect:
       return 'incorrect'
-    default: //inactive or correct share style
+    case KeyStates.Current:
+      return 'current'
+    default:
       return 'inactive'
   }
 })
@@ -21,6 +25,10 @@ const letterClass = computed(() => {
 </template>
 
 <style>
+.current {
+  text-decoration: underline;
+  color: gray;
+}
 .whitespace {
   white-space: pre;
 }
@@ -31,6 +39,6 @@ const letterClass = computed(() => {
   color: red;
 }
 .correct {
-  color: lightgray;
+  color: green;
 }
 </style>
