@@ -8,6 +8,10 @@ const createStatesMask = (text: Array<string>) => {
   let mask = JSON.parse(JSON.stringify(text)) as Array<string>
   return mask.map((word) => word.replace(/./g, KeyStates.Inactive))
 }
+
+const totalLength = (text: Array<string>) => {
+  return text.reduce((acc, word) => { return acc + word.length }, 0)
+}
 </script>
 
 <script setup lang="ts">
@@ -16,19 +20,20 @@ import { loremIpsum, shortTest } from '@/const/loremIpsum'
 import TypingText from './TypingText.vue'
 import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
+import Metrics from './Metrics.vue'
 
-const typedWords = ref<number>(0);
 const text = ref<Array<string>>(prepText(shortTest))
 const mask = ref<Array<string>>(createStatesMask(text.value))
-const states = ref<Array<string>>()
-const textLength = computed<number>(() => text.value.length)
+const textWords = computed<number>(() => text.value.length)
+const textLength = computed<number>(() => totalLength(text.value))
 const currentWord = computed<string>(() => text.value[currentWordIndex.value])
 const currentWordLength = computed<number>(() => text.value[currentWordIndex.value].length)
 const currentWordIndex = ref<number>(0)
 const currentLetterIndex = ref<number>(0)
 const letterMistake = ref<boolean>(false)
 const active = ref<boolean>(true)
-
+const mistakes = ref<number>(0)
+const time = ref<number>(0)
 const changeState = (state: KeyStates) => {
   const maskWord = mask.value[currentWordIndex.value]
   const index = currentLetterIndex.value
@@ -56,10 +61,9 @@ const handleKeyDown = (event: KeyboardEvent) => {
     currentLetterIndex.value++
     if (currentLetterIndex.value >= currentWordLength.value) {
       currentLetterIndex.value = 0
-      typedWords.value++
       //Check for text end
       currentWordIndex.value++
-      if (currentWordIndex.value >= textLength.value) {
+      if (currentWordIndex.value >= textWords.value) {
         //Finish
         active.value = false
         return
@@ -67,6 +71,8 @@ const handleKeyDown = (event: KeyboardEvent) => {
     }
     changeState(KeyStates.Current)
   } else {
+    if (!letterMistake.value)
+      mistakes.value++
     letterMistake.value = true
   }
 }
@@ -84,7 +90,9 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <div>
-      <Timer :started="active" />
+      <Timer :started="active" @time="(t) => time = t" />
+      <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
+        :time="time" />
     </div>
     <TypingText :text="text" :states="mask" />
   </div>

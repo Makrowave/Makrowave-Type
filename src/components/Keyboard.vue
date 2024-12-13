@@ -18,7 +18,7 @@ const keyLayout = keys
     <ul>
       <Key key="Caps" keyName="CapsLock" altKeyName="" special width="80px" togglable />
       <Key v-for="el in keyLayout[2]" :key="el[1]" :keyName="el[0]" :altKeyName="el[1]" />
-      <Key key="Enter" keyName="Control" altKeyName="" special width="80px" />
+      <Key key="Enter" keyName="Enter" altKeyName="" special width="80px" />
     </ul>
     <ul>
       <Key key="Shift1" keyName="Shift" altKeyName="" special width="100px" :location="1" />
