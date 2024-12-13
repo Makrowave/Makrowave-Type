@@ -15,14 +15,15 @@ const mergeData = () => {
 }
 </script>
 <template>
-  <div class="wrapper">
+  <div class="text-box">
     <TypingWord v-for="row in mergeData()" :text="row.word" :states="row.states" />
   </div>
 </template>
 <style scoped>
-.wrapper {
+.text-box {
   display: flex;
   max-width: 400px;
   flex-wrap: wrap;
+  flex-direction: row;
 }
 </style>

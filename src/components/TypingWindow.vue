@@ -1,9 +1,4 @@
-<script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { loremIpsum } from '@/const/loremIpsum'
-import TypingText from './TypingText.vue'
-import { KeyStates } from '@/const/states'
-
+<script lang="ts">
 const prepText = (inputText: string): Array<string> => {
   let resultText = inputText.split(' ').map((word) => word + ' ')
   resultText[resultText.length - 1] = resultText[resultText.length - 1].trim()
@@ -13,8 +8,17 @@ const createStatesMask = (text: Array<string>) => {
   let mask = JSON.parse(JSON.stringify(text)) as Array<string>
   return mask.map((word) => word.replace(/./g, KeyStates.Inactive))
 }
+</script>
 
-const text = ref<Array<string>>(prepText(loremIpsum))
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { loremIpsum, shortTest } from '@/const/loremIpsum'
+import TypingText from './TypingText.vue'
+import { KeyStates } from '@/const/states'
+import Timer from './Timer.vue'
+
+const typedWords = ref<number>(0);
+const text = ref<Array<string>>(prepText(shortTest))
 const mask = ref<Array<string>>(createStatesMask(text.value))
 const states = ref<Array<string>>()
 const textLength = computed<number>(() => text.value.length)
@@ -47,6 +51,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
     currentLetterIndex.value++
     if (currentLetterIndex.value >= currentWordLength.value) {
       currentLetterIndex.value = 0
+      typedWords.value++
       //Check for text end
       currentWordIndex.value++
       if (currentWordIndex.value >= textLength.value) {
@@ -72,7 +77,18 @@ onUnmounted(() => {
 })
 </script>
 <template>
+<div class="wrapper">
+  <div>
+    <Timer :started="active"/>
+  </div>
   <TypingText :text="text" :states="mask" />
+</div>
 </template>
 
-<style></style>
+<style scoped>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+}
+</style>
