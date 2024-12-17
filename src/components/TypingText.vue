@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme';
 import TypingWord from './TypingWord.vue'
 const props = defineProps<{ text: Array<string>; states: Array<string> }>()
 const mergeData = () => {

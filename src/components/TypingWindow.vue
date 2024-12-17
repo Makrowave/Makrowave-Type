@@ -10,7 +10,9 @@ const createStatesMask = (text: Array<string>) => {
 }
 
 const totalLength = (text: Array<string>) => {
-  return text.reduce((acc, word) => { return acc + word.length }, 0)
+  return text.reduce((acc, word) => {
+    return acc + word.length
+  }, 0)
 }
 </script>
 
@@ -43,11 +45,9 @@ const changeState = (state: KeyStates) => {
 const handleKeyDown = (event: KeyboardEvent) => {
   if (!active.value) return
   const letter = event.key
-  if (letter === 'Shift'
-    || letter === 'Alt'
-    || letter === 'Control'
-    || letter === 'CapsLock'
-  ) { return }
+  if (letter === 'Shift' || letter === 'Alt' || letter === 'Control' || letter === 'CapsLock') {
+    return
+  }
 
   if (letter === currentWord.value[currentLetterIndex.value]) {
     if (!letterMistake.value) {
@@ -71,8 +71,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
     }
     changeState(KeyStates.Current)
   } else {
-    if (!letterMistake.value)
-      mistakes.value++
+    if (!letterMistake.value) mistakes.value++
     letterMistake.value = true
   }
 }
@@ -89,9 +88,14 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="wrapper">
-    <Timer :started="active" @time="(t) => time = t" />
-    <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
-      :time="time" />
+    <Timer :started="active" @time="(t) => (time = t)" />
+    <Metrics
+      :length="textLength"
+      :completed-words="currentWordIndex"
+      :word-count="textWords"
+      :mistakes="mistakes"
+      :time="time"
+    />
     <TypingText :text="text" :states="mask" />
   </div>
 </template>

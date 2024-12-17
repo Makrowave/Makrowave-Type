@@ -29,7 +29,6 @@ export const useThemeStore = defineStore('theme', () => {
     for (let i = 0; i < count - 1; i++) {
       result += `, ${activeKeyColors.value[i]} ${Math.floor(i * ratio)}%`
     }
-    console.log(result + `, ${activeKeyColors.value[count - 1]} 100%)`)
     return result + `, ${activeKeyColors.value[count - 1]} 100%)`
   }
   //General

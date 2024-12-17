@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-const { time, length, wordCount, completedWords, mistakes }
-  = defineProps<{
-    length: number
-    wordCount: number
-    time: number
-    completedWords: number
-    mistakes: number
-  }>()
+const { time, length, wordCount, completedWords, mistakes } = defineProps<{
+  length: number
+  wordCount: number
+  time: number
+  completedWords: number
+  mistakes: number
+}>()
 
 const wpm = computed((): number => {
-  return time === 0 || completedWords === 0 ? 0 : Math.floor(completedWords / time * 60 * 1000)
+  return time === 0 || completedWords === 0 ? 0 : Math.floor((completedWords / time) * 60 * 1000)
 })
 const accuracy = computed((): number => {
-  return mistakes === 0 ? 100.00 : 100 * (length - mistakes) / length
+  return mistakes === 0 ? 100.0 : (100 * (length - mistakes)) / length
 })
 
 const score = computed(() => {
-  return accuracy.value * wpm.value / 100
+  return (accuracy.value * wpm.value) / 100
 })
 </script>
 <template>

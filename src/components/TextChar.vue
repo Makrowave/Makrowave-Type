@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { KeyStates } from '@/const/states'
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore } from '@/stores/theme'
 import { computed, ref } from 'vue'
-const props = defineProps<{ state: string, value: string }>()
+const props = defineProps<{ state: string; value: string }>()
 const { inactiveFontColor, incorrectFontColor, correctFontColor } = useThemeStore()
 
 const letterStyle = computed(() => {
@@ -10,11 +10,10 @@ const letterStyle = computed(() => {
     case KeyStates.Correct:
       return { color: correctFontColor }
     case KeyStates.Incorrect:
-      if (props.value === ' ')
-        return { color: incorrectFontColor, textDecoration: "underline" }
+      if (props.value === ' ') return { color: incorrectFontColor, textDecoration: 'underline' }
       return { color: incorrectFontColor }
     case KeyStates.Current:
-      return { color: inactiveFontColor, textDecoration: "underline" }
+      return { color: inactiveFontColor, textDecoration: 'underline' }
     default:
       return { color: inactiveFontColor }
   }

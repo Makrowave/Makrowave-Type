@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { keys } from '@/const/keys'
 import Key from './KeyboardKey.vue'
-import { onMounted, onUnmounted, ref } from 'vue';
-import { useThemeStore } from '@/stores/theme';
+import { onMounted, onUnmounted, ref } from 'vue'
+import { useThemeStore } from '@/stores/theme'
 const keyLayout = keys
 
-const theme = useThemeStore();
+const theme = useThemeStore()
 
-const rotation = ref(0);
-const backgroundRotation = ref(0);
-const color = ref(0);
+const rotation = ref(0)
+const backgroundRotation = ref(0)
+const color = ref(0)
 const startAnimation = () => {
   setInterval(() => {
     decrementColor()
@@ -22,7 +22,7 @@ const incrementRotation = () => {
   rotation.value += 0.5
 }
 const smoothRotation = (repetitions: number, delay: number) => {
-  var repCount = 0;
+  var repCount = 0
   const interval = setInterval(() => {
     incrementRotation()
     if (++repCount === repetitions) {
@@ -38,24 +38,25 @@ const decrementColor = () => {
 }
 const handleKeyDown = () => {
   smoothRotation(10, 10)
-  // incrementRotation()
   incrementColor()
 }
 onMounted(() => {
-  startAnimation();
+  startAnimation()
   addEventListener('keydown', handleKeyDown)
 })
 onUnmounted(() => {
   removeEventListener('keydown', handleKeyDown)
 })
-
 </script>
 
 <template>
-  <div class="keyboard" :style="{
-    background: `linear-gradient(${rotation}deg, rgb(${color} ${color} ${color}) 80%, ${theme.outlineGradient} 100%)`,
-    border: `1px solid ${theme.uiTextColor}`
-  }">
+  <div
+    class="keyboard"
+    :style="{
+      background: `linear-gradient(${rotation}deg, rgb(${color} ${color} ${color}) 80%, ${theme.outlineGradient} 100%)`,
+      border: `1px solid ${theme.uiTextColor}`,
+    }"
+  >
     <div :style="{ background: theme.generateKeyboardGradient(backgroundRotation) }">
       <ul>
         <Key v-for="el in keyLayout[0]" :key="el[1]" :keyName="el[0]" :altKeyName="el[1]" />

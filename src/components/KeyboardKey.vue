@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore } from '@/stores/theme'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  keyName: string
-  altKeyName: string
-  special?: boolean
-  width?: string
-  location?: number
-  togglable?: boolean
-  gStart?: number
-  gEnd?: number
-}>(), { special: false, width: '40px', location: 0, togglable: false })
+const props = withDefaults(
+  defineProps<{
+    keyName: string
+    altKeyName: string
+    special?: boolean
+    width?: string
+    location?: number
+    togglable?: boolean
+    gStart?: number
+    gEnd?: number
+  }>(),
+  { special: false, width: '40px', location: 0, togglable: false },
+)
 
 const isPressed = ref<boolean>(false)
 const theme = useThemeStore()
@@ -20,9 +23,8 @@ const keyStyle = computed(() => {
   let returnClass: { [key: string]: any } = {
     height: '40px',
     width: props.width,
-    border: `0.8px solid ${theme.inactiveKeyTextColor}`
+    border: `0.8px solid ${theme.inactiveKeyTextColor}`,
   }
-  console.log(props.width);
   if (!isPressed.value) {
     returnClass.background = theme.inactiveKeyColor
     returnClass.color = theme.inactiveKeyTextColor
@@ -35,20 +37,16 @@ const keyStyle = computed(() => {
 const handleKeyDown = (event: KeyboardEvent) => {
   if (props.togglable && event.key === props.keyName && event.location === props.location) {
     isPressed.value = !isPressed.value
-    return;
+    return
   }
-  if (event.key === props.keyName && event.location === props.location)
-    isPressed.value = true
-  if (event.key === props.altKeyName && event.location === props.location)
-    isPressed.value = true
+  if (event.key === props.keyName && event.location === props.location) isPressed.value = true
+  if (event.key === props.altKeyName && event.location === props.location) isPressed.value = true
 }
 
 const handleKeyUp = (event: KeyboardEvent) => {
-  if (props.togglable) return;
-  if (event.key === props.keyName && event.location === props.location)
-    isPressed.value = false
-  if (event.key === props.altKeyName && event.location === props.location)
-    isPressed.value = false
+  if (props.togglable) return
+  if (event.key === props.keyName && event.location === props.location) isPressed.value = false
+  if (event.key === props.altKeyName && event.location === props.location) isPressed.value = false
 }
 onMounted(() => {
   window.addEventListener('keydown', handleKeyDown)

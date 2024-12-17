@@ -5,8 +5,6 @@ const props = defineProps<{ text: string; states: string }>()
 const mergeData = () => {
   const text = props.text.split('')
   const states = props.states.split('')
-  //   console.log(text)
-  //   console.log(states)
   if (text.length !== states.length) {
     throw new Error('Strings must be of the same length')
   }
