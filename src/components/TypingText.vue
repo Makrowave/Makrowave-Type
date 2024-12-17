@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useThemeStore } from '@/stores/theme';
 import TypingWord from './TypingWord.vue'
 const props = defineProps<{ text: Array<string>; states: Array<string> }>()
 const mergeData = () => {
@@ -23,7 +24,9 @@ const mergeData = () => {
 .text-box {
   display: flex;
   max-width: 400px;
+  height: 160px;
   flex-wrap: wrap;
   flex-direction: row;
+  align-content: flex-start;
 }
 </style>

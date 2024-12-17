@@ -32,6 +32,9 @@ const score = computed(() => {
 <style scoped>
 .metrics {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-grow: 1;
 }
 </style>

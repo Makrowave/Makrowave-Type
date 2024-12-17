@@ -89,11 +89,9 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="wrapper">
-    <div>
-      <Timer :started="active" @time="(t) => time = t" />
-      <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
-        :time="time" />
-    </div>
+    <Timer :started="active" @time="(t) => time = t" />
+    <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
+      :time="time" />
     <TypingText :text="text" :states="mask" />
   </div>
 </template>
@@ -102,6 +100,8 @@ onUnmounted(() => {
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+  min-width: 600px;
+  align-items: center;
+  width: 80%;
 }
 </style>

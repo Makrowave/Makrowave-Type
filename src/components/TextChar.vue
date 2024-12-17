@@ -1,44 +1,34 @@
 <script setup lang="ts">
 import { KeyStates } from '@/const/states'
+import { useThemeStore } from '@/stores/theme';
 import { computed, ref } from 'vue'
-const props = defineProps<{ state: string }>()
+const props = defineProps<{ state: string, value: string }>()
+const { inactiveFontColor, incorrectFontColor, correctFontColor } = useThemeStore()
 
-const letterClass = computed(() => {
-  let resultClass
+const letterStyle = computed(() => {
   switch (props.state) {
     case KeyStates.Correct:
-      return 'correct'
+      return { color: correctFontColor }
     case KeyStates.Incorrect:
-      return 'incorrect'
+      if (props.value === ' ')
+        return { color: incorrectFontColor, textDecoration: "underline" }
+      return { color: incorrectFontColor }
     case KeyStates.Current:
-      return 'current'
+      return { color: inactiveFontColor, textDecoration: "underline" }
     default:
-      return 'inactive'
+      return { color: inactiveFontColor }
   }
 })
 </script>
 
 <template>
-  <span class="whitespace" :class="letterClass">
-    <slot></slot>
+  <span class="whitespace" :style="letterStyle">
+    {{ value }}
   </span>
 </template>
 
 <style>
-.current {
-  text-decoration: underline;
-  color: gray;
-}
 .whitespace {
   white-space: pre;
-}
-.inactive {
-  color: gray;
-}
-.incorrect {
-  color: red;
-}
-.correct {
-  color: green;
 }
 </style>

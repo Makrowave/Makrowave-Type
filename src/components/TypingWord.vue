@@ -19,7 +19,7 @@ const mergeData = () => {
 </script>
 <template>
   <div>
-    <TextChar v-for="letter in mergeData()" :state="letter.state">{{ letter.letter }}</TextChar>
+    <TextChar v-for="letter in mergeData()" :state="letter.state" :value="letter.letter"></TextChar>
   </div>
 </template>
 <style></style>

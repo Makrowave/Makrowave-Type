@@ -60,13 +60,14 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  color: white;
+  background: black;
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
+  /* font-family:
+    'Roboto Mono',
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -78,7 +79,11 @@ body {
     'Fira Sans',
     'Droid Sans',
     'Helvetica Neue',
-    sans-serif;
+    sans-serif; */
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 10;
+  font-style: normal;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

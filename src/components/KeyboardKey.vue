@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useThemeStore } from '@/stores/theme';
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
@@ -8,13 +9,26 @@ const props = withDefaults(defineProps<{
   width?: string
   location?: number
   togglable?: boolean
+  gStart?: number
+  gEnd?: number
 }>(), { special: false, width: '40px', location: 0, togglable: false })
 
 const isPressed = ref<boolean>(false)
-const keyClass = computed(() => {
-  let returnClass;
-  returnClass = props.special ? "" : "normal-size"
-  returnClass += isPressed.value ? " pressed" : " normal"
+const theme = useThemeStore()
+
+const keyStyle = computed(() => {
+  let returnClass: { [key: string]: any } = {
+    height: '40px',
+    width: props.width,
+    border: `0.8px solid ${theme.inactiveKeyTextColor}`
+  }
+  console.log(props.width);
+  if (!isPressed.value) {
+    returnClass.background = theme.inactiveKeyColor
+    returnClass.color = theme.inactiveKeyTextColor
+  } else {
+    returnClass.color = theme.activeKeyTextColor
+  }
   return returnClass
 })
 
@@ -47,28 +61,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <li :class="keyClass" :style="special && props.width ? { width: props.width, height: '40px' } : {}">
+  <li :style="keyStyle">
     <span class="primary">{{ keyName }}</span>
     <span class="secondary">{{ altKeyName }}</span>
   </li>
 </template>
 
 <style scoped>
-.normal-size {
-  height: 40px;
-  width: 40px;
-}
-
-.normal {
-  background-color: gray;
-  border: 1px solid white;
-}
-
-.pressed {
-  background-color: cadetblue;
-  border: 1px solid white;
-}
-
 .primary {
   position: absolute;
   white-space: pre;

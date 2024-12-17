@@ -39,6 +39,6 @@ onUpdated(() => {
 })
 </script>
 <template>
-    <span>{{ time }}</span>
+    <h3>{{ time }}</h3>
 </template>
 <style scoped></style>
