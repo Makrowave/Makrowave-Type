@@ -66,7 +66,6 @@ const theme = useThemeStore()
 }
 .option {
   width: 100%;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import ColorPicker from './ColorPicker.vue'
+import { useThemeStore } from '@/stores/theme'
+
+const theme = useThemeStore()
+
 const color = defineModel<string>()
 const visible = ref<boolean>(false)
 
@@ -23,22 +27,30 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <button
-    ref="button"
-    :class="$attrs.class + ' button'"
-    :style="{ backgroundColor: color ?? '#ff0000' }"
-    @click="visible = !visible"
-  ></button>
-  <ColorPicker
-    class="abs-picker"
-    v-if="visible"
-    ref="picker"
-    :initial-color="color ?? '#ff0000'"
-    @change="(val) => (color = val)"
-  />
+  <div class="wrapper">
+    <button
+      ref="button"
+      class="button"
+      :style="{ backgroundColor: color, border: `0.5px solid ${theme.uiTextColor}` }"
+      @click="visible = !visible"
+    ></button>
+    <ColorPicker
+      class="abs-picker"
+      v-if="visible"
+      ref="picker"
+      :initial-color="color ?? '#ff0000'"
+      @change="(val) => (color = val)"
+    />
+  </div>
 </template>
 
 <style scoped>
+.wrapper {
+  position: relative;
+  display: flex;
+  height: 20px;
+  width: 20px;
+}
 .button {
   all: unset;
   height: 20px;
@@ -47,5 +59,7 @@ onUnmounted(() => {
 }
 .abs-picker {
   position: absolute;
+  left: 25px;
+  z-index: 30;
 }
 </style>
