@@ -3,12 +3,12 @@ import { ref } from 'vue'
 
 export const useThemeStore = defineStore('theme', () => {
   //Typing text font color
-  const inactiveFontColor = ref<string>('#bbbbbb')
-  const correctFontColor = ref<string>('#39FAAF')
-  const incorrectFontColor = ref<string>('#E65368')
+  const inactiveFontColor = ref<string>('#767676')
+  const correctFontColor = ref<string>('#38faaf')
+  const incorrectFontColor = ref<string>('#0f5941')
 
   //Keyboard
-  const outlineGradient = ref<string>('#3989FA')
+  const outlineGradient = ref<string>('#0dddba')
   //Inactive
   const inactiveKeyColor = ref<string>('#313131')
   const inactiveKeyTextColor = ref<string>('#ffffff')
