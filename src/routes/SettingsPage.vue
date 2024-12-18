@@ -52,9 +52,39 @@ const theme = useThemeStore()
         <ModalColorPicker v-model="theme.outlineGradient" />
       </div>
     </section>
+    <h3>Keyboard Gradient</h3>
+    <section>
+      <div class="option" v-for="(color, i) in theme.activeKeyColors">
+        <button
+          class="themed-button"
+          :style="{ border: `0.5px solid ${theme.uiTextColor}` }"
+          v-if="i > 1"
+          @click="theme.activeKeyColors.splice(i, 1)"
+        >
+          X
+        </button>
+        <ModalColorPicker v-model="theme.activeKeyColors[i]" />
+      </div>
+      <button
+        @click="theme.activeKeyColors.push('#000000')"
+        class="themed-button"
+        :style="{ border: `0.5px solid ${theme.uiTextColor}`, width: '100%', marginTop: '6px' }"
+      >
+        +
+      </button>
+    </section>
   </div>
 </template>
 <style>
+.themed-button {
+  all: unset;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .settings {
   display: flex;
   flex-direction: column;
@@ -65,12 +95,19 @@ const theme = useThemeStore()
   width: 20px;
 }
 .option {
+  margin: 1px 0 1px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+.option div {
+  margin-left: auto;
+}
 section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   width: 200px;
 }
 h3 {

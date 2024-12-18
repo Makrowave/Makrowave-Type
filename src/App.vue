@@ -16,7 +16,7 @@ watch(theme, () => {
 </script>
 
 <template>
-  <header>
+  <header :style="{ borderBottom: `1px solid ${theme.uiTextColor}` }">
     <h2>Makrowave Type</h2>
     <nav>
       <RouterLink to="/">Type</RouterLink>
@@ -34,9 +34,5 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-}
-
-header {
-  border-bottom: 1px solid white;
 }
 </style>
