@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
-import Keyboard from './components/Keyboard.vue'
-import TypingWindow from './components/TypingWindow.vue'
-import { useThemeStore } from './stores/theme';
+import { onMounted, watch } from 'vue'
+import { useThemeStore } from './stores/theme'
+import { RouterLink } from 'vue-router'
 const theme = useThemeStore()
 
 onMounted(() => {
@@ -19,26 +18,18 @@ watch(theme, () => {
 <template>
   <header>
     <h2>Makrowave Type</h2>
+    <nav>
+      <RouterLink to="/">Type</RouterLink>
+      <RouterLink to="/leaderboard">Leaderboard</RouterLink>
+      <RouterLink to="/settings">Settings</RouterLink>
+    </nav>
   </header>
   <main>
-    <div class="typing-window">
-      <TypingWindow />
-      <Keyboard />
-    </div>
+    <RouterView />
   </main>
 </template>
 
 <style scoped>
-.typing-window {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 100%;
-  max-width: 800px;
-  flex-grow: 1;
-}
-
 main {
   display: flex;
   flex-direction: row;
