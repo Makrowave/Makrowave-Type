@@ -31,6 +31,16 @@ export const useThemeStore = defineStore('theme', () => {
     }
     return result + `, ${activeKeyColors.value[count - 1]} 100%)`
   }
+  const generateBackgroundGradient = (deg: number, pos: Array<number>) => {
+    let result = `conic-gradient(from ${deg}deg at ${pos[0]}px ${pos[1]}px`
+    const count = activeKeyColors.value.length
+    const ratio = 100 / count
+    result += `, ${activeKeyColors.value[0]} ${Math.floor(ratio / 2)}%`
+    for (let i = 1; i < count; i++) {
+      result += `, ${activeKeyColors.value[i]} ${Math.floor((i + 0.5) * ratio)}%`
+    }
+    return result + `, ${activeKeyColors.value[0]} 100%)`
+  }
   //General
   const uiTextColor = ref<string>('#ffffff')
   const uiBackground = ref<string>('#181818')
@@ -47,6 +57,7 @@ export const useThemeStore = defineStore('theme', () => {
     uiTextColor,
     uiBackground,
 
+    generateBackgroundGradient,
     generateKeyboardGradient,
   }
 })

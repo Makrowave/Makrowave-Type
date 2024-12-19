@@ -5,7 +5,7 @@ import { computed } from 'vue'
 
 const theme = useThemeStore()
 
-const shadow = computed(() => ({ boxShadow: `5px 5px 0px 7px ${theme.uiTextColor}` }))
+const shadow = computed(() => ({ boxShadow: `20px 30px 0px 0px ${theme.uiTextColor}`, border: `0.5px solid ${theme.uiTextColor}` }))
 </script>
 <template>
   <div class="settings">

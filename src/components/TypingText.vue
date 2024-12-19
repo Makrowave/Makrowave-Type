@@ -27,5 +27,6 @@ const mergeData = () => {
   flex-wrap: wrap;
   flex-direction: row;
   align-content: flex-start;
+  z-index: 1;
 }
 </style>

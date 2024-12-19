@@ -1,25 +1,37 @@
 <script setup lang="ts">
 import { keys } from '@/const/keys'
 import Key from './KeyboardKey.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import { useThemeStore } from '@/stores/theme'
 const keyLayout = keys
 
 const theme = useThemeStore()
 
+const keyboard = useTemplateRef('keyboard')
+const calculateCenter = () => {
+  if (keyboard.value) {
+    const rect = keyboard.value.getBoundingClientRect();
+    return [Math.floor(rect.left + rect.width / 2), Math.floor(rect.top + rect.height / 2)]
+  } else {
+    return [0, 0]
+  }
+}
+
 const rotation = ref(0)
-const backgroundRotation = ref(0)
-const color = ref(0)
+const shadow = ref(-100)
+const gradientStyle = computed(() => {
+  return { background: theme.generateBackgroundGradient(rotation.value, calculateCenter()) }
+})
 const startAnimation = () => {
   setInterval(() => {
-    decrementColor()
-  }, 15)
+    decrementShadow()
+  }, 350)
   setInterval(() => {
-    backgroundRotation.value += 1
-  }, 200)
+    rotation.value += 0.5
+  }, 20)
 }
 const incrementRotation = () => {
-  rotation.value += 0.5
+  rotation.value += 0.7
 }
 const smoothRotation = (repetitions: number, delay: number) => {
   var repCount = 0
@@ -30,15 +42,15 @@ const smoothRotation = (repetitions: number, delay: number) => {
     }
   }, delay)
 }
-const incrementColor = () => {
-  if (color.value <= 245) color.value += 10
+const incrementShadow = () => {
+  if (shadow.value <= 20) shadow.value += 1
 }
-const decrementColor = () => {
-  if (color.value > 0) color.value--
+const decrementShadow = () => {
+  if (shadow.value > -100) shadow.value--
 }
 const handleKeyDown = () => {
   smoothRotation(10, 10)
-  incrementColor()
+  incrementShadow()
 }
 onMounted(() => {
   startAnimation()
@@ -50,14 +62,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="keyboard"
-    :style="{
-      background: `linear-gradient(${rotation}deg, rgb(${color} ${color} ${color}) 80%, ${theme.outlineGradient} 100%)`,
-      border: `1px solid ${theme.uiTextColor}`,
-    }"
-  >
-    <div :style="{ background: theme.generateKeyboardGradient(backgroundRotation) }">
+  <div ref="keyboard" class="keyboard">
+    <div :style="gradientStyle">
       <ul>
         <Key v-for="el in keyLayout[0]" :key="el[1]" :keyName="el[0]" :altKeyName="el[1]" />
         <Key key="Backspace" keyName="Backspace" altKeyName="" special width="80px" />
@@ -85,6 +91,9 @@ onUnmounted(() => {
         <Key key="Ctrl2" keyName="Control" altKeyName="" special width="80px" :location="2" />
       </ul>
     </div>
+    <div class="keyboard-background" :style="gradientStyle"></div>
+    <div class="keyboard-pseudo-border" :style="gradientStyle"></div>
+    <div class="shadow" :style="{ boxShadow: `0px 0px 100px ${shadow}px ${theme.inactiveKeyTextColor}` }"></div>
   </div>
 </template>
 
@@ -96,10 +105,37 @@ ul {
 }
 
 .keyboard {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding: 20px;
-  border-radius: 15px;
+}
+
+.keyboard-background {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 30px;
+  left: 30px;
+  height: 100%;
+  width: 100%;
+}
+
+.keyboard-pseudo-border {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -1px;
+  left: -1px;
+  height: calc(100% + 2px);
+  width: calc(100% + 2px);
+}
+
+.shadow {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -5;
 }
 </style>
