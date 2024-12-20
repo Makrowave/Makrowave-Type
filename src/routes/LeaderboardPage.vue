@@ -2,11 +2,11 @@
 import DailyScoreboard from '@/components/dailyscoreboard.vue';
 import AllTimeScoreboard from '@/components/alltimescoreboard.vue'
 const dailyScores = [
-  { id: 1, username: "Makrowave", time: 200000, accuracy: 0.9 },
-  { id: 2, username: "Makrowave", time: 200000, accuracy: 0.9 },
-  { id: 3, username: "Makrowave", time: 200000, accuracy: 0.9 },
-  { id: 4, username: "Makrowave", time: 200000, accuracy: 0.9 },
-  { id: 5, username: "Makrowave", time: 200000, accuracy: 0.9 }
+  { id: 1, username: "Makrowave", time: 200000, accuracy: 0.9234, score: 67 },
+  { id: 2, username: "Makrowave", time: 200000, accuracy: 0.9, score: 67 },
+  { id: 3, username: "Makrowave", time: 200000, accuracy: 0.9, score: 67 },
+  { id: 4, username: "Makrowave", time: 200000, accuracy: 0.9, score: 67 },
+  { id: 5, username: "Makrowave", time: 200000, accuracy: 0.9, score: 67 }
 ]
 
 const allTimeScores = [
