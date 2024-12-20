@@ -5,7 +5,7 @@ import TypingWindow from '@/components/TypingWindow.vue'
 
 <template>
   <div class="typing-window">
-    <TypingWindow />
+    <TypingWindow :ranked="false" />
     <Keyboard />
   </div>
 </template>

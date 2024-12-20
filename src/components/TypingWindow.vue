@@ -24,6 +24,8 @@ import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
 import Metrics from './Metrics.vue'
 
+const props = defineProps<{ ranked: boolean }>()
+
 const text = ref<Array<string>>(prepText(shortTest))
 const mask = ref<Array<string>>(createStatesMask(text.value))
 const textWords = computed<number>(() => text.value.length)
@@ -33,7 +35,7 @@ const currentWordLength = computed<number>(() => text.value[currentWordIndex.val
 const currentWordIndex = ref<number>(0)
 const currentLetterIndex = ref<number>(0)
 const letterMistake = ref<boolean>(false)
-const active = ref<boolean>(true)
+const active = ref<boolean>(false)
 const mistakes = ref<number>(0)
 const time = ref<number>(0)
 const changeState = (state: KeyStates) => {
@@ -42,9 +44,37 @@ const changeState = (state: KeyStates) => {
   mask.value[currentWordIndex.value] = maskWord.slice(0, index) + state + maskWord.slice(index + 1)
 }
 
+
+const handleEnd = () => {
+  active.value = false
+  if (props.ranked) {
+    //handle ranked end logic
+    //send data, etc.
+  } else {
+    //handle new casual exercise
+  }
+}
+
+const handleStart = () => {
+  if (props.ranked) {
+    //handle start login
+    //send request to mark that challenge was undertaken
+    //start when marked
+    //play animation?
+  }
+  active.value = true
+}
+
+
+
 const handleKeyDown = (event: KeyboardEvent) => {
-  if (!active.value) return
   const letter = event.key
+  if (!active.value) {
+    if (letter === 'Enter')
+      handleStart()
+    return
+  }
+
   if (letter === 'Shift' || letter === 'Alt' || letter === 'Control' || letter === 'CapsLock') {
     return
   }
@@ -65,7 +95,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
       currentWordIndex.value++
       if (currentWordIndex.value >= textWords.value) {
         //Finish
-        active.value = false
+        handleEnd()
         return
       }
     }
@@ -89,13 +119,9 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <Timer :started="active" @time="(t) => (time = t)" />
-    <Metrics
-      :length="textLength"
-      :completed-words="currentWordIndex"
-      :word-count="textWords"
-      :mistakes="mistakes"
-      :time="time"
-    />
+    <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
+      :time="time" />
+    <h3 v-if="!active">Press enter to start</h3>
     <TypingText :text="text" :states="mask" />
   </div>
 </template>
