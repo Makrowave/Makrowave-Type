@@ -8,20 +8,32 @@ const keyLayout = keys
 const theme = useThemeStore()
 
 const keyboard = useTemplateRef('keyboard')
-const calculateCenter = () => {
-  if (keyboard.value) {
-    const rect = keyboard.value.getBoundingClientRect();
-    return [Math.floor(rect.left + rect.width / 2), Math.floor(rect.top + rect.height / 2)]
+const keyboardBorder = useTemplateRef('border')
+
+const shadowCenter = computed(() => {
+  if (borderCenter.value) {
+    let arr = JSON.parse(JSON.stringify(borderCenter.value))
+    arr[0] -= 30
+    arr[1] -= 30
+    return arr
   } else {
     return [0, 0]
   }
-}
+})
+const borderCenter = computed(() => {
+  if (keyboardBorder.value) {
+    const rect = keyboardBorder.value.getBoundingClientRect()
+    return [Math.floor(rect.width / 2), Math.floor(rect.height / 2)]
+  } else {
+    return [0, 0]
+  }
+})
 
 const rotation = ref(0)
 const shadow = ref(-100)
-const gradientStyle = computed(() => {
-  return { background: theme.generateBackgroundGradient(rotation.value, calculateCenter()) }
-})
+const gradientStyle = (pos: Array<number>) => {
+  return { background: theme.generateBackgroundGradient(rotation.value, pos) }
+}
 const startAnimation = () => {
   setInterval(() => {
     decrementShadow()
@@ -63,7 +75,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="keyboard" class="keyboard">
-    <div :style="gradientStyle">
+    <div>
       <ul>
         <Key v-for="el in keyLayout[0]" :key="el[1]" :keyName="el[0]" :altKeyName="el[1]" />
         <Key key="Backspace" keyName="Backspace" altKeyName="" special width="80px" />
@@ -91,9 +103,12 @@ onUnmounted(() => {
         <Key key="Ctrl2" keyName="Control" altKeyName="" special width="80px" :location="2" />
       </ul>
     </div>
-    <div class="keyboard-background" :style="gradientStyle"></div>
-    <div class="keyboard-pseudo-border" :style="gradientStyle"></div>
-    <div class="shadow" :style="{ boxShadow: `0px 0px 100px ${shadow}px ${theme.inactiveKeyTextColor}` }"></div>
+    <div class="keyboard-background" :style="gradientStyle(shadowCenter)"></div>
+    <div ref="border" class="keyboard-pseudo-border" :style="gradientStyle(borderCenter)"></div>
+    <div
+      class="shadow"
+      :style="{ boxShadow: `0px 0px 100px ${shadow}px ${theme.inactiveKeyTextColor}` }"
+    ></div>
   </div>
 </template>
 
@@ -112,7 +127,7 @@ ul {
 }
 
 .keyboard-background {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: 30px;
@@ -122,7 +137,7 @@ ul {
 }
 
 .keyboard-pseudo-border {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: -1px;
@@ -132,7 +147,7 @@ ul {
 }
 
 .shadow {
-  content: "";
+  content: '';
   height: 100%;
   width: 100%;
   position: absolute;
