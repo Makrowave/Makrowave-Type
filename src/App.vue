@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
 import { useThemeStore } from './stores/theme'
-import { RouterLink } from 'vue-router'
 const theme = useThemeStore()
 
 onMounted(() => {
@@ -16,23 +15,7 @@ watch(theme, () => {
 </script>
 
 <template>
-  <header :style="{ borderBottom: `1px solid ${theme.uiTextColor}` }">
-    <h2>Makrowave Type</h2>
-    <nav>
-      <RouterLink to="/">Type</RouterLink>
-      <RouterLink to="/leaderboard">Leaderboard</RouterLink>
-      <RouterLink to="/settings">Settings</RouterLink>
-    </nav>
-  </header>
-  <main>
-    <RouterView />
-  </main>
+  <RouterView />
 </template>
 
-<style scoped>
-main {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-</style>
+<style></style>
