@@ -107,7 +107,7 @@ onUnmounted(() => {
     <div ref="border" class="keyboard-pseudo-border" :style="gradientStyle(borderCenter)"></div>
     <div
       class="shadow"
-      :style="{ boxShadow: `0px 0px 100px ${shadow}px ${theme.inactiveKeyTextColor}` }"
+      :style="{ boxShadow: `0px 0px 100px ${shadow}px ${theme.inactiveText}` }"
     ></div>
   </div>
 </template>

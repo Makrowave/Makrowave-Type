@@ -6,7 +6,7 @@ const theme = useThemeStore()
 </script>
 
 <template>
-  <header :style="{ borderBottom: `1px solid ${theme.uiTextColor}` }">
+  <header :style="{ borderBottom: `1px solid ${theme.uiText}` }">
     <h2>Makrowave Type</h2>
     <div class="bar">
       <nav>
@@ -25,8 +25,9 @@ const theme = useThemeStore()
 <style scoped>
 main {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .bar {
   display: flex;

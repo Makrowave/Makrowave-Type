@@ -1,30 +1,65 @@
 <script setup lang="ts">
+import getAxiosInstace from '@/api/axios'
+import router from '@/router'
 import { useThemeStore } from '@/stores/theme'
+import { useUserStore } from '@/stores/user'
+import { onMounted, ref } from 'vue'
+
+const axios = getAxiosInstace()
+const user = useUserStore()
+const username = ref<string>('')
+const password = ref<string>('')
+const theme = useThemeStore()
+
+const login = () => {
+  axios
+    .post(
+      'Auth/login',
+      { username: username.value, password: password.value },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
+    .then((response) => {
+      user.username = response.data
+      user.loggedIn = true
+      router.replace('/')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 
 const emit = defineEmits<{
   (e: 'click'): void
 }>()
 
-const theme = useThemeStore()
+onMounted(() => {
+  console.log(user.loggedIn)
+  if (user.loggedIn) {
+    router.replace('/')
+  }
+})
 </script>
 
 <template>
   <div
     class="login-wrapper"
     :style="{
-      border: `1px solid ${theme.uiTextColor}`,
-      boxShadow: `10px 10px 0px 0px ${theme.uiTextColor}`,
+      border: `1px solid ${theme.uiText}`,
+      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
     }"
   >
-    <form>
+    <form @submit.prevent="login">
       <div class="field">
         Username
         <input
           type="text"
+          v-model="username"
           :style="{
             background: theme.uiBackground,
-            color: theme.uiTextColor,
-            border: `1px solid ${theme.uiTextColor}`,
+            color: theme.uiText,
+            border: `1px solid ${theme.uiText}`,
           }"
         />
       </div>
@@ -32,10 +67,11 @@ const theme = useThemeStore()
         Password
         <input
           type="password"
+          v-model="password"
           :style="{
             background: theme.uiBackground,
-            color: theme.uiTextColor,
-            border: `1px solid ${theme.uiTextColor}`,
+            color: theme.uiText,
+            border: `1px solid ${theme.uiText}`,
           }"
         />
       </div>

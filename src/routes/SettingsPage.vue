@@ -1,13 +1,58 @@
 <script setup lang="ts">
+import getAxiosInstace from '@/api/axios'
 import ModalColorPicker from '@/components/colorpicker/ModalColorPicker.vue'
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore, type Theme } from '@/stores/theme'
+import { useUserStore } from '@/stores/user'
 import { computed } from 'vue'
 
 const theme = useThemeStore()
+const user = useUserStore()
+const axios = getAxiosInstace()
+
+const getUserTheme = async () => {
+  axios
+    .get('Settings/theme')
+    .then((response) => {
+      const fetchedTheme = response.data as Theme
+      theme.uiText = fetchedTheme.uiText
+      theme.uiBackground = fetchedTheme.uiBackground
+      theme.textIncorrect = fetchedTheme.textIncomplete
+      theme.textIncomplete = fetchedTheme.textIncomplete
+      theme.textComplete = fetchedTheme.textComplete
+      theme.inactiveKey = fetchedTheme.inactiveKey
+      theme.inactiveText = fetchedTheme.inactiveText
+      theme.activeText = fetchedTheme.activeText
+      theme.gradient = fetchedTheme.gradient
+    })
+    .catch((error) => console.log(error))
+}
+
+const saveUserTheme = async () => {
+  theme.saveToStorage()
+  axios.post(
+    'Settings/theme',
+    {
+      uiText: theme.uiText,
+      uiBackground: theme.uiBackground,
+      textIncorrect: theme.textIncorrect,
+      textIncomplete: theme.textIncomplete,
+      textComplete: theme.textComplete,
+      inactiveKey: theme.inactiveKey,
+      inactiveText: theme.inactiveText,
+      activeText: theme.activeText,
+      gradient: theme.gradient,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  )
+}
 
 const shadow = computed(() => ({
-  boxShadow: `10px 10px 0px 0px ${theme.uiTextColor}`,
-  border: `0.5px solid ${theme.uiTextColor}`,
+  boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
+  border: `0.5px solid ${theme.uiText}`,
 }))
 </script>
 <template>
@@ -16,7 +61,7 @@ const shadow = computed(() => ({
       <h3>UI</h3>
       <div class="option">
         <span>UI Text</span>
-        <ModalColorPicker v-model="theme.uiTextColor" />
+        <ModalColorPicker v-model="theme.uiText" />
       </div>
       <div class="option">
         <span>UI Background</span>
@@ -28,15 +73,15 @@ const shadow = computed(() => ({
       <h3>Text</h3>
       <div class="option">
         <span>Incomplete</span>
-        <ModalColorPicker v-model="theme.inactiveFontColor" />
+        <ModalColorPicker v-model="theme.textIncomplete" />
       </div>
       <div class="option">
         <span>Incorrect</span>
-        <ModalColorPicker v-model="theme.incorrectFontColor" />
+        <ModalColorPicker v-model="theme.textIncorrect" />
       </div>
       <div class="option">
         <span>Correct</span>
-        <ModalColorPicker v-model="theme.correctFontColor" />
+        <ModalColorPicker v-model="theme.textComplete" />
       </div>
     </section>
 
@@ -44,42 +89,51 @@ const shadow = computed(() => ({
       <h3>Keyboard</h3>
       <div class="option">
         <span>Inactive Key</span>
-        <ModalColorPicker v-model="theme.inactiveKeyColor" />
+        <ModalColorPicker v-model="theme.inactiveKey" />
       </div>
       <div class="option">
         <span>Inactive Key Text</span>
-        <ModalColorPicker v-model="theme.inactiveKeyTextColor" />
+        <ModalColorPicker v-model="theme.inactiveText" />
       </div>
       <div class="option">
         <span>Active Key Text</span>
-        <ModalColorPicker v-model="theme.activeKeyTextColor" />
+        <ModalColorPicker v-model="theme.activeText" />
       </div>
       <div class="option">
         <span>Moving Gradient</span>
-        <ModalColorPicker v-model="theme.outlineGradient" />
+        <ModalColorPicker v-model="theme.textIncomplete" />
       </div>
     </section>
     <section :style="shadow">
       <h3>Keyboard Gradient</h3>
-      <div class="option" v-for="(color, i) in theme.activeKeyColors">
+      <div class="option" v-for="(color, i) in theme.gradient">
         <button
           class="themed-button"
-          :style="{ border: `0.5px solid ${theme.uiTextColor}` }"
+          :style="{ border: `0.5px solid ${theme.uiText}` }"
           v-if="i > 1"
-          @click="theme.activeKeyColors.splice(i, 1)"
+          @click="theme.gradient.splice(i, 1)"
         >
           X
         </button>
-        <ModalColorPicker v-model="theme.activeKeyColors[i]" />
+        <ModalColorPicker v-model="theme.gradient[i]" />
       </div>
       <button
-        @click="theme.activeKeyColors.push('#000000')"
+        @click="theme.gradient.push('#000000')"
         class="themed-button"
-        :style="{ border: `0.5px solid ${theme.uiTextColor}`, width: '100%', marginTop: '6px' }"
+        :style="{ border: `0.5px solid ${theme.uiText}`, width: '100%', marginTop: '6px' }"
       >
         +
       </button>
     </section>
+  </div>
+  <div class="buttons">
+    <button :style="shadow" class="save-button" @click="() => theme.saveToStorage()">Save</button>
+    <button :style="shadow" class="save-button" @click="() => saveUserTheme()" v-if="user.loggedIn">
+      Save on all devices
+    </button>
+    <button :style="shadow" class="save-button" @click="() => getUserTheme()" v-if="user.loggedIn">
+      Get saved theme
+    </button>
   </div>
 </template>
 <style>
@@ -93,11 +147,22 @@ const shadow = computed(() => ({
   justify-content: center;
 }
 
-/*.settings {
+.buttons {
+  margin-top: 40px;
+  width: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}*/
+  justify-content: space-around;
+}
+
+.save-button {
+  all: unset;
+  flex: 1;
+  margin-top: 20px;
+  padding: 4px;
+  cursor: pointer;
+  text-align: center;
+}
 
 .settings {
   display: grid;

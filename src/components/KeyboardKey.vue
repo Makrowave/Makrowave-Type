@@ -23,13 +23,13 @@ const keyStyle = computed(() => {
   let returnClass: { [key: string]: any } = {
     height: '40px',
     width: props.width,
-    border: `0.8px solid ${theme.inactiveKeyTextColor}`,
+    border: `0.8px solid ${theme.inactiveText}`,
   }
   if (!isPressed.value) {
-    returnClass.background = theme.inactiveKeyColor
-    returnClass.color = theme.inactiveKeyTextColor
+    returnClass.background = theme.inactiveKey
+    returnClass.color = theme.inactiveText
   } else {
-    returnClass.color = theme.activeKeyTextColor
+    returnClass.color = theme.inactiveText
   }
   return returnClass
 })

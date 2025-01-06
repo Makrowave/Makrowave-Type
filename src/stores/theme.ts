@@ -1,19 +1,33 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useThemeStore = defineStore('theme', () => {
-  //Typing text font color
-  const inactiveFontColor = ref<string>('#767676')
-  const correctFontColor = ref<string>('#38faaf')
-  const incorrectFontColor = ref<string>('#0f5941')
+export interface Theme {
+  uiText: string
+  uiBackground: string
+  textIncomplete: string
+  textComplete: string
+  textIncorrect: string
+  inactiveKey: string
+  inactiveText: string
+  activeText: string
+  gradient: Array<string>
+}
 
+export const useThemeStore = defineStore('theme', () => {
+  //UI
+  const uiText = ref<string>('#ffffff')
+  const uiBackground = ref<string>('#181818')
+  //Typing text font color
+  const textIncomplete = ref<string>('#767676')
+  const textComplete = ref<string>('#38faaf')
+  const textIncorrect = ref<string>('#0f5941')
   //Keyboard
-  const outlineGradient = ref<string>('#0dddba')
   //Inactive
-  const inactiveKeyColor = ref<string>('#313131')
-  const inactiveKeyTextColor = ref<string>('#ffffff')
+  const inactiveKey = ref<string>('#313131')
+  const inactiveText = ref<string>('#ffffff')
   //Active
-  const activeKeyColors = ref<Array<string>>([
+  const activeText = ref<string>('#000000')
+  const gradient = ref<Array<string>>([
     '#39FAAF',
     '#39C6FA',
     '#3AFAF2',
@@ -21,43 +35,71 @@ export const useThemeStore = defineStore('theme', () => {
     '#3989FA',
     '#67E6DD',
   ])
-  const activeKeyTextColor = ref<string>('#000000')
-  const generateKeyboardGradient = (deg: number) => {
-    let result = `linear-gradient(${deg}deg`
-    const count = activeKeyColors.value.length
-    const ratio = 100 / (count - 1)
-    for (let i = 0; i < count - 1; i++) {
-      result += `, ${activeKeyColors.value[i]} ${Math.floor(i * ratio)}%`
-    }
-    return result + `, ${activeKeyColors.value[count - 1]} 100%)`
-  }
+  // const generateKeyboardGradient = (deg: number) => {
+  //   let result = `linear-gradient(${deg}deg`
+  //   const count = activeKeyColors.value.length
+  //   const ratio = 100 / (count - 1)
+  //   for (let i = 0; i < count - 1; i++) {
+  //     result += `, ${activeKeyColors.value[i]} ${Math.floor(i * ratio)}%`
+  //   }
+  //   return result + `, ${activeKeyColors.value[count - 1]} 100%)`
+  // }
   const generateBackgroundGradient = (deg: number, pos: Array<number>) => {
     let result = `conic-gradient(from ${deg}deg at ${pos[0]}px ${pos[1]}px`
-    const count = activeKeyColors.value.length
+    const count = gradient.value.length
     const ratio = 100 / count
-    result += `, ${activeKeyColors.value[0]} ${Math.floor(ratio / 2)}%`
+    result += `, ${gradient.value[0]} ${Math.floor(ratio / 2)}%`
     for (let i = 1; i < count; i++) {
-      result += `, ${activeKeyColors.value[i]} ${Math.floor((i + 0.5) * ratio)}%`
+      result += `, ${gradient.value[i]} ${Math.floor((i + 0.5) * ratio)}%`
     }
-    return result + `, ${activeKeyColors.value[0]} 100%)`
+    return result + `, ${gradient.value[0]} 100%)`
   }
-  //General
-  const uiTextColor = ref<string>('#ffffff')
-  const uiBackground = ref<string>('#181818')
+
+  const readFromStorage = () => {
+    const theme = localStorage.getItem('theme')
+    if (theme !== null) {
+      const parsedTheme = JSON.parse(theme) as Theme
+      uiText.value = parsedTheme.uiText
+      uiBackground.value = parsedTheme.uiBackground
+      textIncomplete.value = parsedTheme.textIncomplete
+      textComplete.value = parsedTheme.textComplete
+      textIncorrect.value = parsedTheme.textIncorrect
+      inactiveKey.value = parsedTheme.inactiveKey
+      inactiveText.value = parsedTheme.inactiveText
+      activeText.value = parsedTheme.activeText
+      gradient.value = parsedTheme.gradient
+    }
+  }
+
+  const saveToStorage = () => {
+    const theme = {
+      uiText: uiText.value,
+      uiBackground: uiBackground.value,
+      textIncomplete: textIncomplete.value,
+      textComplete: textComplete.value,
+      textIncorrect: textIncorrect.value,
+      inactiveKey: inactiveKey.value,
+      inactiveText: inactiveText.value,
+      activeText: activeText.value,
+      gradient: gradient.value,
+    }
+    localStorage.setItem('theme', JSON.stringify(theme))
+  }
 
   return {
-    inactiveFontColor,
-    correctFontColor,
-    incorrectFontColor,
-    outlineGradient,
-    inactiveKeyColor,
-    inactiveKeyTextColor,
-    activeKeyColors,
-    activeKeyTextColor,
-    uiTextColor,
+    textIncomplete,
+    textComplete,
+    textIncorrect,
+    inactiveKey,
+    inactiveText,
+    gradient,
+    activeText,
+    uiText,
     uiBackground,
 
     generateBackgroundGradient,
-    generateKeyboardGradient,
+    readFromStorage,
+    saveToStorage,
+    // generateKeyboardGradient,
   }
 })

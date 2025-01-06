@@ -12,8 +12,8 @@ const theme = useThemeStore()
   <div
     class="register-wrapper"
     :style="{
-      border: `1px solid ${theme.uiTextColor}`,
-      boxShadow: `10px 10px 0px 0px ${theme.uiTextColor}`,
+      border: `1px solid ${theme.uiText}`,
+      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
     }"
   >
     <form>
@@ -23,8 +23,8 @@ const theme = useThemeStore()
           type="text"
           :style="{
             background: theme.uiBackground,
-            color: theme.uiTextColor,
-            border: `1px solid ${theme.uiTextColor}`,
+            color: theme.uiText,
+            border: `1px solid ${theme.uiText}`,
           }"
         />
       </div>
@@ -34,8 +34,8 @@ const theme = useThemeStore()
           type="password"
           :style="{
             background: theme.uiBackground,
-            color: theme.uiTextColor,
-            border: `1px solid ${theme.uiTextColor}`,
+            color: theme.uiText,
+            border: `1px solid ${theme.uiText}`,
           }"
         />
       </div>
@@ -45,8 +45,8 @@ const theme = useThemeStore()
           type="password"
           :style="{
             background: theme.uiBackground,
-            color: theme.uiTextColor,
-            border: `1px solid ${theme.uiTextColor}`,
+            color: theme.uiText,
+            border: `1px solid ${theme.uiText}`,
           }"
         />
       </div>

@@ -31,7 +31,7 @@ onUnmounted(() => {
     <button
       ref="button"
       class="button"
-      :style="{ backgroundColor: color, border: `0.5px solid ${theme.uiTextColor}` }"
+      :style="{ backgroundColor: color, border: `0.5px solid ${theme.uiText}` }"
       @click="visible = !visible"
     ></button>
     <ColorPicker
