@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import getAxiosInstace from '@/api/axios'
+import getAxiosInstance from '@/api/axios'
 import ModalColorPicker from '@/components/colorpicker/ModalColorPicker.vue'
 import { useThemeStore, type Theme } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
@@ -7,7 +7,14 @@ import { computed } from 'vue'
 
 const theme = useThemeStore()
 const user = useUserStore()
-const axios = getAxiosInstace()
+const axios = getAxiosInstance()
+
+const hoverStyle = computed(() => {
+  return {
+    '--hover-color': theme.uiText,
+    '--hover-text-color': theme.uiBackground
+  }
+})
 
 const getUserTheme = async () => {
   axios
@@ -16,7 +23,7 @@ const getUserTheme = async () => {
       const fetchedTheme = response.data as Theme
       theme.uiText = fetchedTheme.uiText
       theme.uiBackground = fetchedTheme.uiBackground
-      theme.textIncorrect = fetchedTheme.textIncomplete
+      theme.textIncorrect = fetchedTheme.textIncorrect
       theme.textIncomplete = fetchedTheme.textIncomplete
       theme.textComplete = fetchedTheme.textComplete
       theme.inactiveKey = fetchedTheme.inactiveKey
@@ -107,31 +114,24 @@ const shadow = computed(() => ({
     <section :style="shadow">
       <h3>Keyboard Gradient</h3>
       <div class="option" v-for="(color, i) in theme.gradient">
-        <button
-          class="themed-button"
-          :style="{ border: `0.5px solid ${theme.uiText}` }"
-          v-if="i > 1"
-          @click="theme.gradient.splice(i, 1)"
-        >
+        <button class="themed-button" :style="[{ border: `0.5px solid ${theme.uiText}` }, hoverStyle]" v-if="i > 1"
+          @click="theme.gradient.splice(i, 1)">
           X
         </button>
         <ModalColorPicker v-model="theme.gradient[i]" />
       </div>
-      <button
-        @click="theme.gradient.push('#000000')"
-        class="themed-button"
-        :style="{ border: `0.5px solid ${theme.uiText}`, width: '100%', marginTop: '6px' }"
-      >
+      <button @click="theme.gradient.push('#000000')" class="themed-button"
+        :style="[{ border: `0.5px solid ${theme.uiText}`, width: '100%', marginTop: '6px' }, hoverStyle]">
         +
       </button>
     </section>
   </div>
   <div class="buttons">
-    <button :style="shadow" class="save-button" @click="() => theme.saveToStorage()">Save</button>
-    <button :style="shadow" class="save-button" @click="() => saveUserTheme()" v-if="user.loggedIn">
+    <button :style="[shadow, hoverStyle]" class="save-button" @click="() => theme.saveToStorage()">Save</button>
+    <button :style="[shadow, hoverStyle]" class="save-button" @click="() => saveUserTheme()" v-if="user.loggedIn">
       Save on all devices
     </button>
-    <button :style="shadow" class="save-button" @click="() => getUserTheme()" v-if="user.loggedIn">
+    <button :style="[shadow, hoverStyle]" class="save-button" @click="() => getUserTheme()" v-if="user.loggedIn">
       Get saved theme
     </button>
   </div>
@@ -145,6 +145,7 @@ const shadow = computed(() => ({
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s;
 }
 
 .buttons {
@@ -162,6 +163,7 @@ const shadow = computed(() => ({
   padding: 4px;
   cursor: pointer;
   text-align: center;
+  transition: 0.2s;
 }
 
 .settings {
@@ -192,12 +194,17 @@ section {
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 200px;
+  width: 250px;
   padding: 0 20px 20px 20px;
 }
 
 h3 {
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+button:hover {
+  background: var(--hover-color);
+  color: var(--hover-text-color);
 }
 </style>

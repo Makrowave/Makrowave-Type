@@ -22,8 +22,8 @@ watch(props, () => (shownColor.value = props.color))
 </script>
 <template>
   <input type="text" v-model="shownColor" @input="(e) => handleChange(e)"
-    :style="{ border: `0.2px solid ${theme.uiTextColor}` }" />
-  <div class="preview" :style="{ backgroundColor: color, border: `0.2px solid ${theme.uiTextColor}` }"></div>
+    :style="{ border: `0.2px solid ${theme.uiText}` }" />
+  <div class="preview" :style="{ backgroundColor: color, border: `0.2px solid ${theme.uiText}` }"></div>
 </template>
 <style scoped>
 .input-wrapper {
