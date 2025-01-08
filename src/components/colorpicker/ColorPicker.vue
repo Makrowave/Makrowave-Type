@@ -25,10 +25,7 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div
-    class="picker"
-    :style="{ backgroundColor: theme.uiBackground, border: `1px solid ${theme.uiTextColor}` }"
-  >
+  <div class="picker" :style="{ backgroundColor: theme.uiBackground, border: `1px solid ${theme.uiText}` }">
     <Gradient v-model="hsvColor" />
     <HueSlider v-model="hsvColor" />
     <ColorInput :color="hexColor" @change="(val) => (hsvColor = hexToHsv(val))" />
@@ -41,6 +38,7 @@ onMounted(() => {
   gap: 30px 30px;
   padding: 30px;
 }
+
 .cursor {
   height: 20px;
   width: 20px;

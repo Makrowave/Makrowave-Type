@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
 import { useThemeStore } from './stores/theme'
-import getAxiosInstance from './api/axios'
+import axios from './api/axios'
 import { useUserStore } from './stores/user'
 import router from './router'
 import { useRoute } from 'vue-router'
 const theme = useThemeStore()
 const user = useUserStore()
-const axios = getAxiosInstance()
 const route = useRoute()
 
 const getSessionData = async () => {

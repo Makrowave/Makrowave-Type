@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import getAxiosInstance from '@/api/axios'
+import axios from '@/api/axios'
 import ModalColorPicker from '@/components/colorpicker/ModalColorPicker.vue'
 import { useThemeStore, type Theme } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
@@ -7,7 +7,6 @@ import { computed } from 'vue'
 
 const theme = useThemeStore()
 const user = useUserStore()
-const axios = getAxiosInstance()
 
 const hoverStyle = computed(() => {
   return {

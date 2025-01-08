@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import getAxiosInstance from '@/api/axios';
+import axios from '@/api/axios';
 import { useThemeStore } from '@/stores/theme';
 import { useUserStore } from '@/stores/user'
 import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 const user = useUserStore()
 const isLogout = ref<boolean>(false)
 const button = useTemplateRef("button")
-const axios = getAxiosInstance()
 const theme = useThemeStore()
 
 const logout = async () => {

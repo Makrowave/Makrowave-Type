@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme'
-import getAxiosInstace from '@/api/axios'
-import router from '@/router'
-import { useUserStore } from '@/stores/user'
+import axios from '@/api/axios'
 import { computed, onMounted, ref } from 'vue'
+import type { Response } from '@/routes/LoginPage.vue'
+import type { AxiosError } from 'axios';
+import { password_regex, username_regex } from '@/const/regex';
 
-const axios = getAxiosInstace()
 const username = ref<string>('')
 const password = ref<string>('')
 const confirmPassword = ref<string>('')
@@ -19,7 +19,8 @@ const hoverStyle = computed(() => {
 })
 
 const emit = defineEmits<{
-  (e: 'click'): void
+  (e: 'click'): void,
+  (e: 'response', response: Response): void
 }>()
 
 const register = () => {
@@ -32,20 +33,27 @@ const register = () => {
       },
     )
     .then((response) => {
-      emit('click')
+      emit("response", { status: "ok", message: "Account successfully created" })
     })
     .catch((error) => {
+      const axiosError = error as AxiosError
+      emit("response", { status: "error", message: axiosError.message })
       console.log(error)
     })
 }
 
-const validatePassword = () => {
-  //add regex validation
-  if (password.value === confirmPassword.value) {
-    register()
-  } else {
+onMounted(() => {
+  emit('response', { status: "info", message: "Password must contain at least 1 lower and upper case letter, number and special character" })
+})
 
-  }
+const validateData = () => {
+  if (password.value !== confirmPassword.value)
+    emit('response', { status: "error", message: "Passwords don't match" })
+  else if (!password_regex.test(password.value))
+    emit('response', { status: "error", message: "Invalid password" })
+  else if (!username_regex.test(username.value))
+    emit('response', { status: "error", message: "Invalid username" })
+  else register()
 }
 
 </script>
@@ -55,7 +63,7 @@ const validatePassword = () => {
     border: `1px solid ${theme.uiText}`,
     boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
   }">
-    <form @submit.prevent="register">
+    <form @submit.prevent="validateData">
       <div class="field">
         Username
         <input type="text" v-model="username" :style="{

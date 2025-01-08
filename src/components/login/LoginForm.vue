@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import getAxiosInstace from '@/api/axios'
+import axios from '@/api/axios'
 import router from '@/router'
+import type { Response } from '@/routes/LoginPage.vue'
 import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
+import type { AxiosError } from 'axios'
 import { computed, onMounted, ref } from 'vue'
 
-const axios = getAxiosInstace()
 const user = useUserStore()
 const username = ref<string>('')
 const password = ref<string>('')
@@ -33,12 +34,15 @@ const login = () => {
       router.replace('/')
     })
     .catch((error) => {
+      const axiosError = error as AxiosError
+      emit("response", { status: "error", message: axiosError.message })
       console.log(error)
     })
 }
 
 const emit = defineEmits<{
-  (e: 'click'): void
+  (e: 'click'): void,
+  (e: 'response', response: Response): void
 }>()
 
 onMounted(() => {
