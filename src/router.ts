@@ -5,6 +5,7 @@ import TypingPage from './routes/TypingPage.vue'
 import Layout from './routes/Layout.vue'
 import LoginPage from './routes/LoginPage.vue'
 import UserPage from './routes/UserPage.vue'
+import PracticePage from './routes/PracticePage.vue'
 
 const routes = [
   {
@@ -12,6 +13,7 @@ const routes = [
     component: Layout,
     children: [
       { path: '', component: TypingPage },
+      { path: '/practice', component: PracticePage },
       { path: '/leaderboard', component: LeaderboardPage },
       { path: '/settings', component: SettingsPage },
       { path: '/user', component: UserPage },

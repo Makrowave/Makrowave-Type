@@ -21,6 +21,7 @@ const hoverStyle = computed(() => {
     <div class="bar">
       <nav>
         <RouterLink :style="hoverStyle" to="/">Type</RouterLink>
+        <RouterLink :style="hoverStyle" to="/practice">Practice</RouterLink>
         <RouterLink :style="hoverStyle" to="/leaderboard">Leaderboard</RouterLink>
         <RouterLink :style="hoverStyle" to="/settings">Settings</RouterLink>
       </nav>
