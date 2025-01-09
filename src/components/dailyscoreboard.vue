@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme'
 
+export interface DailyRecord {
+  id: number,
+  username: string,
+  time: number,
+  accuracy: number,
+  score: number
+}
+
 const props = defineProps<{
-  scores: Array<{ id: number; username: string; time: number; accuracy: number; score: number }>
+  scores: Array<DailyRecord>
 }>()
 const theme = useThemeStore()
 
@@ -20,12 +28,10 @@ const timeToString = (time: number) => {
 <template>
   <div class="wrapper">
     <h3>Daily</h3>
-    <table
-      :style="{
-        border: `1px solid ${theme.uiText}`,
-        boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-      }"
-    >
+    <table :style="{
+      border: `1px solid ${theme.uiText}`,
+      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
+    }">
       <thead>
         <tr :style="{ borderBottom: `1px solid ${theme.uiText}` }">
           <th>Username</th>

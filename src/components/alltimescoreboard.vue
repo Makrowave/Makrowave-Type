@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme'
 
-const props = defineProps<{ scores: Array<{ id: number; username: string; wins: number }> }>()
+export interface AllTimeRecord {
+  username: string,
+  wins: number
+}
+
+const props = defineProps<{ scores: Array<AllTimeRecord> }>()
 const theme = useThemeStore()
 </script>
 <template>
   <div class="wrapper">
     <h3>All time</h3>
-    <table
-      :style="{
-        border: `1px solid ${theme.uiText}`,
-        boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-      }"
-    >
+    <table :style="{
+      border: `1px solid ${theme.uiText}`,
+      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
+    }">
       <thead>
         <tr :style="{ borderBottom: `1px solid ${theme.uiText}` }">
           <th>Username</th>
@@ -20,7 +23,7 @@ const theme = useThemeStore()
         </tr>
       </thead>
       <tbody>
-        <tr v-for="score in props.scores" :key="score.id">
+        <tr v-for="score in props.scores" :key="score.username">
           <td>{{ score.username }}</td>
           <td>{{ score.wins }}</td>
         </tr>
