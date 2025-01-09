@@ -86,7 +86,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
   if (!active.value && waiting.value) {
     if (letter === 'Enter') {
       emit('refetch')
-      reset()
+      // reset()
       waiting.value = false
     }
     return
@@ -153,14 +153,8 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <Timer :started="active" @time="(t) => (time = t)" />
-    <Metrics
-      :length="textLength"
-      :completed-words="currentWordIndex"
-      :word-count="textWords"
-      :mistakes="mistakes"
-      :time="time"
-      :active="!waiting"
-    />
+    <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
+      :time="time" :active="!waiting" />
     <TypingText :text="text" :states="mask" />
     <h3 v-if="waiting">Presz enter to fetch new text</h3>
     <h3 v-if="!active">Press any key to start</h3>

@@ -11,7 +11,14 @@ axiosInstance.interceptors.response.use(
     // console.log(error)
     let axiosError = error as AxiosError
     let errorMessage = axiosError.response?.data
-    if (typeof errorMessage === 'string') axiosError.message = errorMessage
+    let errors = error.response?.data?.errors
+    if (errors !== null && errors !== undefined) {
+      let message = ''
+      for (let key in errors) {
+        message += errors[key][0] += '\n'
+      }
+      axiosError.message = message
+    } else if (typeof errorMessage === 'string') axiosError.message = errorMessage
     return Promise.reject(axiosError)
   },
 )

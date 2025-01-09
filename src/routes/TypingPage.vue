@@ -1,13 +1,31 @@
 <script setup lang="ts">
 import Keyboard from '@/components/Keyboard.vue'
 import TypingWindow from '@/components/TypingWindow.vue'
-
 import { shortTest } from '@/const/loremIpsum'
+import axios from '@/api/axios'
+import { onMounted, ref } from 'vue'
+
+const text = ref<string>('Lorem ipsum')
+const textReady = ref<boolean>(false)
+const getText = async () => {
+  return await axios
+    .get('DailyChallenge/practice')
+    .then((response) => response.data)
+    .catch(() => 'An error has happened. Try again later!')
+    .finally(() => {
+      textReady.value = true
+    })
+}
+
+onMounted(async () => {
+  text.value = await getText()
+})
 </script>
 
 <template>
   <div class="typing-window">
-    <TypingWindow class="place-top" :ranked="false" :text="shortTest" :textReady="true" />
+    <TypingWindow class="place-top" :ranked="false" :text="text" :textReady="textReady"
+      @finish="() => (textReady = false)" @refetch="async () => (text = await getText())" />
     <Keyboard />
   </div>
 </template>
