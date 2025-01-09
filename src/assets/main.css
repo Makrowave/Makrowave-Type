@@ -27,3 +27,15 @@ a {
     padding: 0 2rem;
   } */
 }
+
+.border-10 {
+  border: 1px solid var(--ui-text);
+}
+
+.border-5 {
+  border: 0.5px solid var(--ui-text);
+}
+
+.box-shadow {
+  box-shadow: 10px 10px 0px 0px var(--ui-text);
+}

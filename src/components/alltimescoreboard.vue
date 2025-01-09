@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme'
 
 export interface AllTimeRecord {
   username: string,
@@ -7,17 +6,13 @@ export interface AllTimeRecord {
 }
 
 const props = defineProps<{ scores: Array<AllTimeRecord> }>()
-const theme = useThemeStore()
 </script>
 <template>
   <div class="wrapper">
     <h3>All time</h3>
-    <table :style="{
-      border: `1px solid ${theme.uiText}`,
-      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-    }">
+    <table class="border-10 box-shadow">
       <thead>
-        <tr :style="{ borderBottom: `1px solid ${theme.uiText}` }">
+        <tr :style="{ borderBottom: `1px solid var(--ui-text)` }">
           <th>Username</th>
           <th>Wins</th>
         </tr>

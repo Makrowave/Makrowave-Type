@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { KeyStates } from '@/const/states'
-import { useThemeStore } from '@/stores/theme'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 const props = defineProps<{ state: string; value: string }>()
-const { textIncomplete, textIncorrect, textComplete } = useThemeStore()
 
 const letterStyle = computed(() => {
   switch (props.state) {
     case KeyStates.Correct:
-      return { color: textComplete }
+      return { color: 'var(--text-correct)' }
     case KeyStates.Incorrect:
-      if (props.value === ' ') return { color: textIncorrect, textDecoration: 'underline' }
-      return { color: textIncorrect }
+      if (props.value === ' ')
+        return { color: 'var(--text-incorrect)', textDecoration: 'underline' }
+      return { color: 'var(--text-incorrect)' }
     case KeyStates.Current:
-      return { color: textIncomplete, textDecoration: 'underline' }
+      return { color: 'var(--text-incomplete)', textDecoration: 'underline' }
     default:
-      return { color: textIncomplete }
+      return { color: 'var(--text-incomplete)' }
   }
 })
 </script>

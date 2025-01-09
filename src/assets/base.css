@@ -80,7 +80,7 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif; */
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
   font-optical-sizing: auto;
   font-weight: 10;
   font-style: normal;
@@ -88,4 +88,34 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0.5px solid var(--ui-text);
+  padding: 0;
+  margin: 0;
+  text-align: inherit;
+  appearance: none;
+  box-shadow: none;
+}
+
+input:focus {
+  outline: 1px solid var(--text-complete);
 }

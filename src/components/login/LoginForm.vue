@@ -5,19 +5,11 @@ import type { Response } from '@/routes/LoginPage.vue'
 import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
 import type { AxiosError } from 'axios'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const user = useUserStore()
 const username = ref<string>('')
 const password = ref<string>('')
-const theme = useThemeStore()
-
-const hoverStyle = computed(() => {
-  return {
-    '--hover-color': theme.uiText,
-    '--hover-text-color': theme.uiBackground
-  }
-})
 
 const login = () => {
   axios
@@ -54,30 +46,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="login-wrapper" :style="{
-    border: `1px solid ${theme.uiText}`,
-    boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-  }">
+  <div class="login-wrapper border-10 box-shadow">
     <form @submit.prevent="login">
       <div class="field">
         Username
-        <input type="text" v-model="username" :style="{
-          background: theme.uiBackground,
-          color: theme.uiText,
-          border: `1px solid ${theme.uiText}`,
-        }" />
+        <input type="text" v-model="username"/>
       </div>
       <div class="field">
         Password
-        <input type="password" v-model="password" :style="{
-          background: theme.uiBackground,
-          color: theme.uiText,
-          border: `1px solid ${theme.uiText}`,
-        }" />
+        <input type="password" v-model="password"/>
       </div>
-      <button class="button" :style="hoverStyle">Sign in</button>
+      <button class="button">Sign in</button>
     </form>
-    <button class="button" :style="hoverStyle" @click="() => emit('click')">Create account</button>
+    <button class="button" @click="() => emit('click')">Create account</button>
   </div>
 </template>
 
@@ -93,14 +74,12 @@ onMounted(() => {
 }
 
 button {
-  all: unset;
-  cursor: pointer;
   margin-top: 10px;
   transition: 0.4s;
 }
 
 button:hover {
-  background-color: var(--hover-color);
-  color: var(--hover-text-color);
+  background-color: var(--ui-text);
+  color: var(--ui-background);
 }
 </style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Keyboard from '@/components/Keyboard.vue'
 import TypingWindow from '@/components/TypingWindow.vue'
-import { shortTest } from '@/const/loremIpsum'
 import axios from '@/api/axios'
 import { onMounted, ref } from 'vue'
 

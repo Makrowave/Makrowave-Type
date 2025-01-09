@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ColorInput from './ColorInput.vue'
 import Gradient from './Gradient.vue'
 import HueSlider from './HueSlider.vue'
-import { useThemeStore } from '@/stores/theme'
+
 
 const props = defineProps<{ initialColor: string }>()
 
-const theme = useThemeStore()
 
 const emit = defineEmits<{
   (e: 'change', time: string): void
@@ -25,7 +24,7 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="picker" :style="{ backgroundColor: theme.uiBackground, border: `1px solid ${theme.uiText}` }">
+  <div class="picker border-5">
     <Gradient v-model="hsvColor" />
     <HueSlider v-model="hsvColor" />
     <ColorInput :color="hexColor" @change="(val) => (hsvColor = hexToHsv(val))" />
@@ -33,6 +32,7 @@ onMounted(() => {
 </template>
 <style scoped>
 .picker {
+  background: var(--ui-background);
   display: grid;
   grid-template-columns: auto auto;
   gap: 30px 30px;

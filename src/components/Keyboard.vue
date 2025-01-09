@@ -7,7 +7,6 @@ const keyLayout = keys
 
 const theme = useThemeStore()
 
-const keyboard = useTemplateRef('keyboard')
 const keyboardBorder = useTemplateRef('border')
 
 const shadowCenter = computed(() => {
@@ -74,7 +73,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="keyboard" class="keyboard">
+  <div class="keyboard">
     <div>
       <ul>
         <Key v-for="el in keyLayout[0]" :key="el[1]" :keyName="el[0]" :altKeyName="el[1]" />

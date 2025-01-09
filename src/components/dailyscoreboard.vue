@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme'
 
 export interface DailyRecord {
   id: number,
@@ -12,7 +11,6 @@ export interface DailyRecord {
 const props = defineProps<{
   scores: Array<DailyRecord>
 }>()
-const theme = useThemeStore()
 
 const timeToString = (time: number) => {
   const min = Math.floor(time / 60000)
@@ -28,12 +26,9 @@ const timeToString = (time: number) => {
 <template>
   <div class="wrapper">
     <h3>Daily</h3>
-    <table :style="{
-      border: `1px solid ${theme.uiText}`,
-      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-    }">
+    <table class="border-10 box-shadow">
       <thead>
-        <tr :style="{ borderBottom: `1px solid ${theme.uiText}` }">
+        <tr :style="{ borderBottom: `1px solid var(--ui-text)` }">
           <th>Username</th>
           <th>Time</th>
           <th>Accuracy</th>

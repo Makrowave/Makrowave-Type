@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme'
 import { ref, watch } from 'vue'
-
 const theme = useThemeStore()
 
 const props = defineProps<{ color: string }>()
@@ -21,8 +20,7 @@ const handleChange = (e: Event) => {
 watch(props, () => (shownColor.value = props.color))
 </script>
 <template>
-  <input type="text" v-model="shownColor" @input="(e) => handleChange(e)"
-    :style="{ border: `0.2px solid ${theme.uiText}` }" />
+  <input type="text" v-model="shownColor" @input="(e) => handleChange(e)" />
   <div class="preview" :style="{ backgroundColor: color, border: `0.2px solid ${theme.uiText}` }"></div>
 </template>
 <style scoped>
@@ -38,7 +36,6 @@ watch(props, () => (shownColor.value = props.color))
 }
 
 input {
-  all: unset;
   width: 200px;
   height: 30px;
 }

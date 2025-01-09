@@ -10,6 +10,8 @@ export interface Theme {
   inactiveKey: string
   inactiveText: string
   activeText: string
+  colorScheme: () => StylePropertyMap
+  changeRootVars: () => void
   gradient: Array<string>
 }
 
@@ -53,6 +55,27 @@ export const useThemeStore = defineStore('theme', () => {
       result += `, ${gradient.value[i]} ${Math.floor((i + 0.5) * ratio)}%`
     }
     return result + `, ${gradient.value[0]} 100%)`
+  }
+
+  const colorScheme = () => {
+    return {
+      '--ui-text': uiText.value,
+      '--ui-background': uiBackground.value,
+      '--text-incomplete': textIncomplete.value,
+      '--text-complete': textComplete.value,
+      '--text-incorrect': textIncorrect.value,
+      '--inactive-key': inactiveKey.value,
+      '--inactive-text': inactiveText.value,
+      '--active-text': activeText.value,
+    }
+  }
+
+  const changeRootVars = () => {
+    const root = document.documentElement
+    const styles = colorScheme()
+    Object.entries(styles).forEach(([key, value]) => {
+      root.style.setProperty(key, value)
+    })
   }
 
   const readFromStorage = () => {
@@ -100,6 +123,8 @@ export const useThemeStore = defineStore('theme', () => {
     generateBackgroundGradient,
     readFromStorage,
     saveToStorage,
+    colorScheme,
+    changeRootVars,
     // generateKeyboardGradient,
   }
 })

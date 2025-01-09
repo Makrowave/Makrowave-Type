@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import DailyScoreboard, { type DailyRecord } from '@/components/DailyScoreboard.vue'
 import AllTimeScoreboard, { type AllTimeRecord } from '@/components/AllTimeScoreboard.vue'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from '@/api/axios'
-import { useThemeStore } from '@/stores/theme'
-
 
 
 const allTimeScores = ref<Array<AllTimeRecord>>([])
@@ -13,10 +11,6 @@ const dailyScores = ref<Array<DailyRecord>>([])
 const dailyError = ref<string>("")
 const allTimeError = ref<string>("")
 
-const theme = useThemeStore()
-const errorStyle = computed(() => {
-  return {'--ui-text': theme.uiText, '--text-incorrect': theme.textIncorrect}
-})
 const getAllTimeScore = async () => {
   return await axios.get("Leaderboard/get-alltime")
     .then(response => {
@@ -51,8 +45,8 @@ onMounted(async () => {
   <div class="page-wrapper">
     <DailyScoreboard v-if="dailyError === ''" :scores="dailyScores" />
     <AllTimeScoreboard v-if="allTimeError === ''" :scores="allTimeScores" />
-    <div class="error" :style="errorStyle" v-if="dailyError !== ''">{{ dailyError }}</div>
-    <div class="error" :style="errorStyle" v-if="allTimeError !== ''"> {{ allTimeError }}</div>
+    <div class="box-shadow border-10 error" v-if="dailyError !== ''">{{ dailyError }}</div>
+    <div class="box-shadow border-10 error"  v-if="allTimeError !== ''"> {{ allTimeError }}</div>
   </div>
 </template>
 <style scoped>
@@ -62,11 +56,10 @@ onMounted(async () => {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  background: var(--ui-background);
 }
 
 .error {
-  box-shadow: 10px 10px 0px 0px var(--ui-text);
-  border: 1px solid var(--ui-text);
   background: var(--text-incorrect);
   text-align: center;
   padding: 4px;

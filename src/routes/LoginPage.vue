@@ -13,24 +13,14 @@ const loginFormToggle = ref<boolean>(true)
 const feedback = ref<Response>({ status: "none", message: "" })
 const theme = useThemeStore()
 
-const feedbackStyle = computed(() => {
-
-  let result = {
-    background: theme.uiBackground,
-    border: `1px solid ${theme.uiText}`,
-    color: theme.uiText,
-    boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-    fontSize: 'inherit'
-  }
-  if (feedback.value.status === "none")
-    return {}
+const feedbackStyle = computed(() => {    
   if (feedback.value.status === "ok")
-    result.background = theme.textComplete
+    return "ok border-10 box-shadow"
   if (feedback.value.status === "error")
-    result.background = theme.textIncorrect
+    return "error border-10 box-shadow"
   if (feedback.value.status === "info")
-    result.fontSize = '12px'
-  return result
+    return "info border-10 box-shadow"
+  return ""
 })
 
 const clearFeedback = () => {
@@ -48,7 +38,7 @@ const toggle = () => {
     </nav>
   </header>
   <main>
-    <div class="feedback" :style="feedbackStyle">
+    <div class="feedback" :class="feedbackStyle">
       {{ feedback.status !== "none" ? feedback.message : "" }}
     </div>
     <LoginForm v-if="loginFormToggle" @click="() => { toggle(); clearFeedback() }"
@@ -58,10 +48,6 @@ const toggle = () => {
   </main>
 </template>
 <style scoped>
-button {
-  all: unset;
-  cursor: pointer;
-}
 
 main {
   width: 100%;
@@ -76,5 +62,15 @@ main {
   width: 200px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.ok {
+  background: var(--text-complete)
+}
+.error {
+  background: var(--text-incorrect)
+}
+.info {
+  font-size: 12px
 }
 </style>

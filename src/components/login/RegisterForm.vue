@@ -66,31 +66,19 @@ const validateData = () => {
     <form @submit.prevent="validateData">
       <div class="field">
         Username
-        <input type="text" v-model="username" :style="{
-          background: theme.uiBackground,
-          color: theme.uiText,
-          border: `1px solid ${theme.uiText}`,
-        }" />
+        <input type="text border-10 box-shadow" v-model="username"/>
       </div>
       <div class="field">
         Password
-        <input type="password" v-model="password" :style="{
-          background: theme.uiBackground,
-          color: theme.uiText,
-          border: `1px solid ${theme.uiText}`,
-        }" />
+        <input type="password border-10 box-shadow" v-model="password"/>
       </div>
       <div class="field">
         Confirm Password
-        <input type="password" v-model="confirmPassword" :style="{
-          background: theme.uiBackground,
-          color: theme.uiText,
-          border: `1px solid ${theme.uiText}`,
-        }" />
+        <input type="password border-10 box-shadow" v-model="confirmPassword"/>
       </div>
-      <button class="button" :style="hoverStyle">Sign up</button>
+      <button class="button">Sign up</button>
     </form>
-    <button class="button" :style="hoverStyle" @click="() => emit('click')">Sign in</button>
+    <button class="button" @click="() => emit('click')">Sign in</button>
   </div>
 </template>
 
@@ -106,14 +94,12 @@ const validateData = () => {
 }
 
 button {
-  all: unset;
-  cursor: pointer;
   margin-top: 10px;
   transition: 0.4s;
 }
 
 button:hover {
-  background-color: var(--hover-color);
-  color: var(--hover-text-color);
+  background-color: var(--ui-text);
+  color: var(--ui-background);
 }
 </style>

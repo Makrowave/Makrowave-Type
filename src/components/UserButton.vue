@@ -55,12 +55,6 @@ onUnmounted(() => {
 </template>
 <style scoped>
 a,
-button {
-  all: unset;
-  cursor: pointer;
-
-
-}
 
 .button {
   transition: 0.4s;

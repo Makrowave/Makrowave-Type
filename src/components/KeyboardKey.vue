@@ -19,6 +19,7 @@ const props = withDefaults(
 const isPressed = ref<boolean>(false)
 const theme = useThemeStore()
 
+//revise this later
 const keyStyle = computed(() => {
   let returnClass: { [key: string]: any } = {
     height: '40px',

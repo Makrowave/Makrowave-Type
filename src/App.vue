@@ -35,6 +35,7 @@ const getSessionData = async () => {
 onMounted(async () => {
   theme.readFromStorage()
   await getSessionData()
+  theme.changeRootVars()
   document.body.style.backgroundColor = theme.uiBackground
   document.body.style.color = theme.uiText
 })
@@ -46,7 +47,7 @@ watch(theme, () => {
 </script>
 
 <template>
-  <RouterView />
+  <RouterView :style="theme.colorScheme()"/>
 </template>
 
 <style></style>

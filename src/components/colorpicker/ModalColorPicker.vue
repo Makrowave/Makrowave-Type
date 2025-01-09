@@ -52,10 +52,8 @@ onUnmounted(() => {
   width: 20px;
 }
 .button {
-  all: unset;
   height: 20px;
   width: 20px;
-  cursor: pointer;
 }
 .abs-picker {
   position: absolute;
