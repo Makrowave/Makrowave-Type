@@ -8,85 +8,73 @@ const createStatesMask = (text: Array<string>) => {
   let mask = JSON.parse(JSON.stringify(text)) as Array<string>
   return mask.map((word) => word.replace(/./g, KeyStates.Inactive))
 }
-
-const totalLength = (text: Array<string>) => {
-  return text.reduce((acc, word) => {
-    return acc + word.length
-  }, 0)
-}
 </script>
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { loremIpsum, shortTest } from '@/const/loremIpsum'
 import TypingText from './TypingText.vue'
 import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
 import Metrics from './Metrics.vue'
 
-const props = defineProps<{ ranked: boolean; text: string; textReady: boolean }>()
+const props = defineProps<{ text: string }>()
 
-const emit = defineEmits<{
-  (e: 'finish'): void
-  (e: 'refetch'): void
-}>()
-
-const text = computed(() => {
-  return prepText(props.text)
-})
-const mask = ref<Array<string>>(['111111', '11111'])
-const textWords = computed<number>(() => text.value.length)
-const textLength = computed<number>(() => totalLength(text.value))
-const currentWord = computed<string>(() => text.value[currentWordIndex.value])
-const currentWordLength = computed<number>(() => text.value[currentWordIndex.value].length)
+//Control flow
+const active = ref<boolean>(false)
+const waiting = ref<boolean>(false)
+//Constant for current text
+const wordCount = computed<number>(() => text.value.text.length)
+const textLength = computed<number>(() => props.text.length)
+//Used for typing
+const currentWord = computed<string>(() => text.value.text[currentWordIndex.value])
+const currentWordLength = computed<number>(() => text.value.text[currentWordIndex.value].length)
 const currentWordIndex = ref<number>(0)
 const currentLetterIndex = ref<number>(0)
 const letterMistake = ref<boolean>(false)
-const active = ref<boolean>(false)
-const waiting = ref<boolean>(false)
+//Statistics
 const mistakes = ref<number>(0)
 const time = ref<number>(0)
+//Text as array of words
+const text = ref<{ text: Array<string>; mask: Array<string> }>({ text: [], mask: [] })
+
+const createTextObject = () => {
+  const words = prepText(props.text)
+  return { text: words, mask: createStatesMask(words) }
+}
+
 const changeState = (state: KeyStates) => {
-  const maskWord = mask.value[currentWordIndex.value]
+  const maskWord = text.value.mask[currentWordIndex.value]
   const index = currentLetterIndex.value
-  mask.value[currentWordIndex.value] = maskWord.slice(0, index) + state + maskWord.slice(index + 1)
+  text.value.mask[currentWordIndex.value] =
+    maskWord.slice(0, index) + state + maskWord.slice(index + 1)
 }
 
 const reset = () => {
+  text.value = createTextObject()
   currentLetterIndex.value = 0
   currentWordIndex.value = 0
   letterMistake.value = false
   mistakes.value = 0
+  const maskWord = text.value.mask[currentWordIndex.value]
+  text.value.mask[0] = KeyStates.Current + maskWord.slice(1)
 }
 
 const handleEnd = () => {
   active.value = false
   waiting.value = true
   emit('finish')
-  if (props.ranked) {
-    //handle ranked end logic
-    //send data, etc.
-  } else {
-  }
 }
 
 const handleStart = () => {
-  if (props.ranked) {
-    //handle start login
-    //send request to mark that challenge was undertaken
-    //start when marked
-    //play animation?
-  }
   active.value = true
 }
 
 const handleKeyDown = (event: KeyboardEvent) => {
   const letter = event.key
-  //New text
+  //Refetch text
   if (!active.value && waiting.value) {
     if (letter === 'Enter') {
       emit('refetch')
-      // reset()
       waiting.value = false
     }
     return
@@ -122,7 +110,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
       currentLetterIndex.value = 0
       //Check for text end
       currentWordIndex.value++
-      if (currentWordIndex.value >= textWords.value) {
+      if (currentWordIndex.value >= wordCount.value) {
         //Finish
         handleEnd()
         return
@@ -136,14 +124,16 @@ const handleKeyDown = (event: KeyboardEvent) => {
 }
 
 watch(props, () => {
-  mask.value = createStatesMask(prepText(props.text))
+  reset()
 })
+
+const emit = defineEmits<{
+  (e: 'finish'): void
+  (e: 'refetch'): void
+}>()
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeyDown)
-  //Set first key to current
-  const maskWord = mask.value[currentWordIndex.value]
-  mask.value[0] = KeyStates.Current + maskWord.slice(1)
 })
 
 onUnmounted(() => {
@@ -153,11 +143,17 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <Timer :started="active" @time="(t) => (time = t)" />
-    <Metrics :length="textLength" :completed-words="currentWordIndex" :word-count="textWords" :mistakes="mistakes"
-      :time="time" :active="!waiting" />
-    <TypingText :text="text" :states="mask" />
-    <h3 v-if="waiting">Presz enter to fetch new text</h3>
-    <h3 v-if="!active">Press any key to start</h3>
+    <Metrics
+      :length="textLength"
+      :completed-words="currentWordIndex"
+      :word-count="wordCount"
+      :mistakes="mistakes"
+      :time="time"
+      :active="!waiting"
+    />
+    <TypingText :text="text.text" :states="text.mask" />
+    <h3 v-if="waiting">Press enter to fetch new text</h3>
+    <h3 v-if="!active && !waiting">Press any key to start</h3>
   </div>
 </template>
 
