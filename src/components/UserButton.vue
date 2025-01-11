@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import axios from '@/api/axios'
-import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
-import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
+import { ref } from 'vue'
 const user = useUserStore()
 const isLogout = ref<boolean>(false)
-const button = useTemplateRef('button')
-const theme = useThemeStore()
 
 const logout = async () => {
   await axios
@@ -18,30 +15,9 @@ const logout = async () => {
     .catch((error) => console.log(error))
 }
 
-const mouseEnter = (e: MouseEvent) => {
-  isLogout.value = true
-}
-
-const mouseLeave = (e: MouseEvent) => {
-  isLogout.value = false
-}
-
-onMounted(() => {
-  if (button.value !== null) {
-    button.value.addEventListener('mouseenter', mouseEnter)
-    button.value.addEventListener('mouseleave', mouseLeave)
-  }
-})
-
-onUnmounted(() => {
-  if (button.value !== null) {
-    button.value.removeEventListener('mouseenter', mouseEnter)
-    button.value.removeEventListener('mouseleave', mouseLeave)
-  }
-})
 </script>
 <template>
-  <div class="button">
+  <div class="button" @mouseenter="isLogout = true" @mouseleave="isLogout = false">
     <RouterLink v-if="!user.loggedIn" to="/login">Sign in</RouterLink>
     <button ref="button" v-if="user.loggedIn" @click="() => logout()">
       {{ isLogout ? 'logout' : user.username }}

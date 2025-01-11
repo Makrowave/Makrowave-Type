@@ -17,7 +17,7 @@ import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
 import Metrics from './Metrics.vue'
 
-const props = defineProps<{ text: string }>()
+const props = defineProps<{ text: string, ranked: boolean }>()
 
 //Control flow
 const active = ref<boolean>(false)
@@ -36,6 +36,22 @@ const mistakes = ref<number>(0)
 const time = ref<number>(0)
 //Text as array of words
 const text = ref<{ text: Array<string>; mask: Array<string> }>({ text: [], mask: [] })
+
+//Metrics
+const wpm = computed((): number => {
+  return (
+    time.value === 0 || currentWordIndex.value === 0
+      ? 0
+      : Math.floor((currentWordIndex.value / time.value) * 60 * 1000)
+  )
+})
+const accuracy = computed((): number => {
+  return (mistakes.value === 0 ? 1 : (textLength.value - mistakes.value) / textLength.value)
+})
+
+const score = computed(() => {
+  return (accuracy.value * wpm.value)
+})
 
 const createTextObject = () => {
   const words = prepText(props.text)
@@ -62,7 +78,11 @@ const reset = () => {
 const handleEnd = () => {
   active.value = false
   waiting.value = true
-  emit('finish')
+  emit('finish', {
+    time: time.value,
+    score: score.value,
+    accuracy: accuracy.value
+  })
 }
 
 const handleStart = () => {
@@ -70,9 +90,10 @@ const handleStart = () => {
 }
 
 const handleKeyDown = (event: KeyboardEvent) => {
+  if (text.value.text.length === 0) return
   const letter = event.key
   //Refetch text
-  if (!active.value && waiting.value) {
+  if (!active.value && waiting.value && !props.ranked) {
     if (letter === 'Enter') {
       emit('refetch')
       waiting.value = false
@@ -123,12 +144,12 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
 }
 
-watch(props, () => {
+watch(() => props.text, () => {
   reset()
 })
 
 const emit = defineEmits<{
-  (e: 'finish'): void
+  (e: 'finish', result: { time: number, score: number, accuracy: number }): void
   (e: 'refetch'): void
 }>()
 
@@ -143,16 +164,10 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <Timer :started="active" @time="(t) => (time = t)" />
-    <Metrics
-      :length="textLength"
-      :completed-words="currentWordIndex"
-      :word-count="wordCount"
-      :mistakes="mistakes"
-      :time="time"
-      :active="!waiting"
-    />
+    <Metrics :completed-words="currentWordIndex" :word-count="wordCount" :wpm="wpm" :accuracy="accuracy * 100"
+      :score="score" />
     <TypingText :text="text.text" :states="text.mask" />
-    <h3 v-if="waiting">Press enter to fetch new text</h3>
+    <h3 v-if="waiting && !props.ranked">Press enter to fetch new text</h3>
     <h3 v-if="!active && !waiting">Press any key to start</h3>
   </div>
 </template>

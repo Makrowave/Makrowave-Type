@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { nextTick, onMounted, watch } from 'vue'
 import { useThemeStore } from './stores/theme'
 import axios from './api/axios'
 import { useUserStore } from './stores/user'
@@ -36,18 +36,17 @@ onMounted(async () => {
   theme.readFromStorage()
   await getSessionData()
   theme.changeRootVars()
-  document.body.style.backgroundColor = theme.uiBackground
-  document.body.style.color = theme.uiText
 })
 
 watch(theme, () => {
+  theme.changeRootVars()
   document.body.style.backgroundColor = theme.uiBackground
   document.body.style.color = theme.uiText
 })
 </script>
 
 <template>
-  <RouterView :style="theme.colorScheme()"/>
+  <RouterView />
 </template>
 
 <style></style>

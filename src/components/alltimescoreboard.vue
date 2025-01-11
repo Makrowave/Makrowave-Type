@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
+
 
 export interface AllTimeRecord {
   username: string,
   wins: number
 }
+
+const user = useUserStore()
 
 const props = defineProps<{ scores: Array<AllTimeRecord> }>()
 </script>
@@ -13,12 +17,15 @@ const props = defineProps<{ scores: Array<AllTimeRecord> }>()
     <table class="border-10 box-shadow">
       <thead>
         <tr :style="{ borderBottom: `1px solid var(--ui-text)` }">
+          <th></th>
           <th>Username</th>
           <th>Wins</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="score in props.scores" :key="score.username">
+        <tr v-for="(score, index) in props.scores" :key="score.username"
+          :class="user.username === score.username ? 'user' : ''">
+          <td>{{ index + 1 }}</td>
           <td>{{ score.username }}</td>
           <td>{{ score.wins }}</td>
         </tr>
@@ -41,5 +48,9 @@ th {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.user {
+  color: var(--text-complete);
 }
 </style>

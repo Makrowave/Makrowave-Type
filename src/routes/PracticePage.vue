@@ -2,7 +2,6 @@
 import Keyboard from '@/components/Keyboard.vue'
 import TypingWindow from '@/components/TypingWindow.vue'
 
-import { shortTest } from '@/const/loremIpsum'
 import axios from '@/api/axios'
 import { onMounted, ref } from 'vue'
 
@@ -21,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <div class="typing-window">
-    <TypingWindow class="place-top" :text="text" @refetch="async () => (text = await getText())" />
+    <TypingWindow class="place-top" :text="text" @refetch="async () => (text = await getText())" :ranked="false" />
     <Keyboard />
   </div>
 </template>

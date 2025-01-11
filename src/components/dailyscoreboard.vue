@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
+
 
 export interface DailyRecord {
   id: number,
@@ -11,6 +13,8 @@ export interface DailyRecord {
 const props = defineProps<{
   scores: Array<DailyRecord>
 }>()
+
+const user = useUserStore()
 
 const timeToString = (time: number) => {
   const min = Math.floor(time / 60000)
@@ -29,6 +33,7 @@ const timeToString = (time: number) => {
     <table class="border-10 box-shadow">
       <thead>
         <tr :style="{ borderBottom: `1px solid var(--ui-text)` }">
+          <th></th>
           <th>Username</th>
           <th>Time</th>
           <th>Accuracy</th>
@@ -36,11 +41,13 @@ const timeToString = (time: number) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="score in props.scores" :key="score.id">
+        <tr v-for="(score, index) in props.scores" :key="score.id"
+          :class="user.username === score.username ? 'user' : ''">
+          <td>{{ index + 1 }}</td>
           <td>{{ score.username }}</td>
           <td>{{ timeToString(score.time) }}</td>
           <td>{{ (score.accuracy * 100).toPrecision(4) }}%</td>
-          <td>{{ score.score }}</td>
+          <td>{{ score.score.toPrecision(4) }}</td>
         </tr>
       </tbody>
     </table>
@@ -61,5 +68,9 @@ th {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.user {
+  color: var(--text-complete);
 }
 </style>
