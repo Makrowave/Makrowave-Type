@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-
+import { useUserStore } from '@/stores/user'
 
 export interface DailyRecord {
-  id: number,
-  username: string,
-  time: number,
-  accuracy: number,
+  id: number
+  username: string
+  time: number
+  accuracy: number
   score: number
+  place: number
 }
 
 const props = defineProps<{
@@ -41,9 +41,12 @@ const timeToString = (time: number) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(score, index) in props.scores" :key="score.id"
-          :class="user.username === score.username ? 'user' : ''">
-          <td>{{ index + 1 }}</td>
+        <tr
+          v-for="score in props.scores"
+          :key="score.id"
+          :class="user.username === score.username ? 'user' : ''"
+        >
+          <td>{{ score.place }}</td>
           <td>{{ score.username }}</td>
           <td>{{ timeToString(score.time) }}</td>
           <td>{{ (score.accuracy * 100).toPrecision(4) }}%</td>
