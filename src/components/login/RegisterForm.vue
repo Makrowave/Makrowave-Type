@@ -3,8 +3,8 @@ import { useThemeStore } from '@/stores/theme'
 import axios from '@/api/axios'
 import { computed, onMounted, ref } from 'vue'
 import type { Response } from '@/routes/LoginPage.vue'
-import type { AxiosError } from 'axios';
-import { password_regex, username_regex } from '@/const/regex';
+import type { AxiosError } from 'axios'
+import { password_regex, username_regex } from '@/const/regex'
 
 const username = ref<string>('')
 const password = ref<string>('')
@@ -14,12 +14,12 @@ const theme = useThemeStore()
 const hoverStyle = computed(() => {
   return {
     '--hover-color': theme.uiText,
-    '--hover-text-color': theme.uiBackground
+    '--hover-text-color': theme.uiBackground,
   }
 })
 
 const emit = defineEmits<{
-  (e: 'click'): void,
+  (e: 'click'): void
   (e: 'response', response: Response): void
 }>()
 
@@ -33,48 +33,54 @@ const register = () => {
       },
     )
     .then((response) => {
-      emit("response", { status: "ok", message: "Account successfully created" })
+      emit('response', { status: 'ok', message: 'Account successfully created' })
     })
     .catch((error) => {
       const axiosError = error as AxiosError
-      emit("response", { status: "error", message: axiosError.message })
+      emit('response', { status: 'error', message: axiosError.message })
       console.log(error)
     })
 }
 
 onMounted(() => {
-  emit('response', { status: "info", message: "Password must contain at least 1 lower and upper case letter, number and special character" })
+  emit('response', {
+    status: 'info',
+    message:
+      'Password must contain at least 1 lower and upper case letter, number and special character',
+  })
 })
 
 const validateData = () => {
   if (password.value !== confirmPassword.value)
-    emit('response', { status: "error", message: "Passwords don't match" })
+    emit('response', { status: 'error', message: "Passwords don't match" })
   else if (!password_regex.test(password.value))
-    emit('response', { status: "error", message: "Invalid password" })
+    emit('response', { status: 'error', message: 'Invalid password' })
   else if (!username_regex.test(username.value))
-    emit('response', { status: "error", message: "Invalid username" })
+    emit('response', { status: 'error', message: 'Invalid username' })
   else register()
 }
-
 </script>
 
 <template>
-  <div class="register-wrapper" :style="{
-    border: `1px solid ${theme.uiText}`,
-    boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-  }">
+  <div
+    class="register-wrapper"
+    :style="{
+      border: `1px solid ${theme.uiText}`,
+      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
+    }"
+  >
     <form @submit.prevent="validateData">
       <div class="field">
         Username
-        <input type="text border-10 box-shadow" v-model="username"/>
+        <input type="text" class="border-10" v-model="username" />
       </div>
       <div class="field">
         Password
-        <input type="password border-10 box-shadow" v-model="password"/>
+        <input type="password" class="border-10" v-model="password" />
       </div>
       <div class="field">
         Confirm Password
-        <input type="password border-10 box-shadow" v-model="confirmPassword"/>
+        <input type="password" class="border-10" v-model="confirmPassword" />
       </div>
       <button class="button">Sign up</button>
     </form>

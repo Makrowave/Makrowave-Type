@@ -17,7 +17,7 @@ import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
 import Metrics from './Metrics.vue'
 
-const props = defineProps<{ text: string, ranked: boolean }>()
+const props = defineProps<{ text: string; ranked: boolean }>()
 
 //Control flow
 const active = ref<boolean>(false)
@@ -39,18 +39,16 @@ const text = ref<{ text: Array<string>; mask: Array<string> }>({ text: [], mask:
 
 //Metrics
 const wpm = computed((): number => {
-  return (
-    time.value === 0 || currentWordIndex.value === 0
-      ? 0
-      : Math.floor((currentWordIndex.value / time.value) * 60 * 1000)
-  )
+  return time.value === 0 || currentWordIndex.value === 0
+    ? 0
+    : Math.floor((currentWordIndex.value / time.value) * 60 * 1000)
 })
 const accuracy = computed((): number => {
-  return (mistakes.value === 0 ? 1 : (textLength.value - mistakes.value) / textLength.value)
+  return mistakes.value === 0 ? 1 : (textLength.value - mistakes.value) / textLength.value
 })
 
 const score = computed(() => {
-  return (accuracy.value * wpm.value)
+  return accuracy.value * wpm.value
 })
 
 const createTextObject = () => {
@@ -81,7 +79,7 @@ const handleEnd = () => {
   emit('finish', {
     time: time.value,
     score: score.value,
-    accuracy: accuracy.value
+    accuracy: accuracy.value,
   })
 }
 
@@ -144,12 +142,15 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
 }
 
-watch(() => props.text, () => {
-  reset()
-})
+watch(
+  () => props.text,
+  () => {
+    reset()
+  },
+)
 
 const emit = defineEmits<{
-  (e: 'finish', result: { time: number, score: number, accuracy: number }): void
+  (e: 'finish', result: { time: number; score: number; accuracy: number }): void
   (e: 'refetch'): void
 }>()
 
@@ -164,9 +165,15 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <Timer :started="active" @time="(t) => (time = t)" />
-    <Metrics :completed-words="currentWordIndex" :word-count="wordCount" :wpm="wpm" :accuracy="accuracy * 100"
-      :score="score" />
-    <TypingText :text="text.text" :states="text.mask" />
+    <Metrics
+      class="margin"
+      :completed-words="currentWordIndex"
+      :word-count="wordCount"
+      :wpm="wpm"
+      :accuracy="accuracy * 100"
+      :score="score"
+    />
+    <TypingText class="text" :text="text.text" :states="text.mask" />
     <h3 v-if="waiting && !props.ranked">Press enter to fetch new text</h3>
     <h3 v-if="!active && !waiting">Press any key to start</h3>
   </div>
@@ -179,6 +186,14 @@ onUnmounted(() => {
   min-width: 600px;
   align-items: center;
   justify-content: flex-start;
-  width: 80%;
+  height: 400px;
+}
+
+.margin {
+  margin-bottom: 10px;
+}
+
+.text {
+  flex: 1;
 }
 </style>

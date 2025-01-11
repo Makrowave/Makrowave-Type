@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <div class="typing-window">
-    <TypingWindow class="place-top" :text="text" @refetch="async () => (text = await getText())" :ranked="false" />
+    <TypingWindow :text="text" @refetch="async () => (text = await getText())" :ranked="false" />
     <Keyboard />
   </div>
 </template>
@@ -30,16 +30,10 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   max-width: 800px;
   flex: 1;
   flex-grow: 1;
-}
-
-.place-top {
-  flex: 1;
-  justify-self: flex-start;
-  margin-bottom: auto;
 }
 
 main {

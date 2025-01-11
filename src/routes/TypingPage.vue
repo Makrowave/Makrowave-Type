@@ -6,7 +6,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import type { AxiosError } from 'axios'
 
-const user = useUserStore();
+const user = useUserStore()
 const text = ref<string>('')
 const message = ref<string>('Loading')
 
@@ -18,24 +18,24 @@ const fetchChallenge = async () => {
     })
     .catch((error: AxiosError) => {
       if (error.status === 401) {
-        message.value = "Log in to participate!"
+        message.value = 'Log in to participate!'
       } else {
         message.value = error.message
       }
-      text.value = '';
+      text.value = ''
     })
 }
 
 watch(user, () => {
   if (!user.loggedIn) {
-    message.value = "Log in to participate!"
+    message.value = 'Log in to participate!'
   }
 })
 
-const finishChallenge = async (result: { time: number, score: number, accuracy: number }) => {
-  axios.post("DailyChallenge/daily-challenge-end",
-    JSON.stringify(result),
-    { headers: { "Content-Type": "application/json" } });
+const finishChallenge = async (result: { time: number; score: number; accuracy: number }) => {
+  axios.post('DailyChallenge/daily-challenge-end', JSON.stringify(result), {
+    headers: { 'Content-Type': 'application/json' },
+  })
 }
 
 onMounted(fetchChallenge)
@@ -43,9 +43,7 @@ onMounted(fetchChallenge)
 
 <template>
   <div class="typing-window" v-show="text !== '' && user.loggedIn">
-    <TypingWindow class="place-top" :text="text" @finish="(result) => {
-      finishChallenge(result)
-    }" :ranked="true" />
+    <TypingWindow :text="text" @finish="(result) => finishChallenge(result)" :ranked="true" />
     <Keyboard />
   </div>
   <h3 v-if="!user.loggedIn || text === ''">{{ message }}</h3>
@@ -56,16 +54,10 @@ onMounted(fetchChallenge)
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   max-width: 800px;
   flex: 1;
   flex-grow: 1;
-}
-
-.place-top {
-  flex: 1;
-  justify-self: flex-start;
-  margin-bottom: auto;
 }
 
 main {

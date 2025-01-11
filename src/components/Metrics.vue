@@ -23,6 +23,6 @@ const { wordCount, completedWords, wpm, accuracy, score } = defineProps<{
   flex-direction: row;
   justify-content: space-between;
   align-self: stretch;
-  flex-grow: 1;
+  flex-wrap: wrap;
 }
 </style>
