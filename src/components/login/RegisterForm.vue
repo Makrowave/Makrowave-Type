@@ -46,7 +46,7 @@ onMounted(() => {
   emit('response', {
     status: 'info',
     message:
-      'Password must contain at least 1 lower and upper case letter, number and special character',
+      'Password must contain at least 8 characters, 1 lower and upper case letter, number and special character',
   })
 })
 

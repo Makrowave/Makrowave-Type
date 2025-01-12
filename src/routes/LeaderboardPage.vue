@@ -56,7 +56,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background: var(--ui-background);
 }
 
 .error {
