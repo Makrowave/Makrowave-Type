@@ -3,7 +3,6 @@ import { useThemeStore } from '@/stores/theme'
 import { RouterLink } from 'vue-router'
 import UserButton from '@/components/UserButton.vue'
 const theme = useThemeStore()
-
 </script>
 
 <template>

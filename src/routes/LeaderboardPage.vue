@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import DailyScoreboard, { type DailyRecord } from '@/components/DailyScoreboard.vue'
-import AllTimeScoreboard, { type AllTimeRecord } from '@/components/AllTimeScoreboard.vue'
+import DailyScoreboard, { type DailyRecord } from '@/components/scoreboard/DailyScoreboard.vue'
+import AllTimeScoreboard, {
+  type AllTimeRecord,
+} from '@/components/scoreboard/AllTimeScoreboard.vue'
 import { onMounted, ref } from 'vue'
 import axios from '@/api/axios'
 

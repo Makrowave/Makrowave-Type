@@ -12,7 +12,7 @@ const createStatesMask = (text: Array<string>) => {
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import TypingText from './TypingText.vue'
+import TypingText from './text/TypingText.vue'
 import { KeyStates } from '@/const/states'
 import Timer from './Timer.vue'
 import Metrics from './Metrics.vue'

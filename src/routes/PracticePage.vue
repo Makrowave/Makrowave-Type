@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Keyboard from '@/components/Keyboard.vue'
+import Keyboard from '@/components/keyboard/Keyboard.vue'
 import TypingWindow from '@/components/TypingWindow.vue'
 
 import axios from '@/api/axios'

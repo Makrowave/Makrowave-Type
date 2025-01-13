@@ -14,7 +14,6 @@ const logout = async () => {
     })
     .catch((error) => console.log(error))
 }
-
 </script>
 <template>
   <div class="button" @mouseenter="isLogout = true" @mouseleave="isLogout = false">

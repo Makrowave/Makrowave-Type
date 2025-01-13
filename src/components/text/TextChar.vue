@@ -6,15 +6,14 @@ const props = defineProps<{ state: string; value: string }>()
 const letterClass = computed(() => {
   switch (props.state) {
     case KeyStates.Correct:
-      return "complete"
+      return 'complete'
     case KeyStates.Incorrect:
-      if (props.value === ' ')
-        return "incorrect space"
-      return "incorrect"
+      if (props.value === ' ') return 'incorrect space'
+      return 'incorrect'
     case KeyStates.Current:
-      return "incomplete underline"
+      return 'incomplete underline'
     default:
-      return "incomplete"
+      return 'incomplete'
   }
 })
 </script>
@@ -30,17 +29,16 @@ const letterClass = computed(() => {
   white-space: pre;
 }
 
-
 .complete {
-  color: var(--text-complete)
+  color: var(--text-complete);
 }
 .incomplete {
-  color: var(--text-incomplete)
+  color: var(--text-incomplete);
 }
 .incorrect {
-  color: var(--text-incorrect)
+  color: var(--text-incorrect);
 }
 .space {
-  text-decoration: underline
+  text-decoration: underline;
 }
 </style>

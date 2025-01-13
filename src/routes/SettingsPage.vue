@@ -100,8 +100,7 @@ const saveUserTheme = async () => {
     <section class="box-shadow border-10">
       <h3>Keyboard Gradient</h3>
       <div class="option" v-for="(color, i) in theme.gradient">
-        <button class="themed-button border-5" v-if="i > 1"
-          @click="theme.gradient.splice(i, 1)">
+        <button class="themed-button border-5" v-if="i > 1" @click="theme.gradient.splice(i, 1)">
           X
         </button>
         <ModalColorPicker v-model="theme.gradient[i]" />
@@ -112,11 +111,21 @@ const saveUserTheme = async () => {
     </section>
   </div>
   <div class="buttons">
-    <button class="save-button box-shadow border-5" @click="() => theme.saveToStorage()">Save</button>
-    <button class="save-button box-shadow border-5" @click="() => saveUserTheme()" v-if="user.loggedIn">
+    <button class="save-button box-shadow border-5" @click="() => theme.saveToStorage()">
+      Save
+    </button>
+    <button
+      class="save-button box-shadow border-5"
+      @click="() => saveUserTheme()"
+      v-if="user.loggedIn"
+    >
       Save on all devices
     </button>
-    <button class="save-button box-shadow border-5" @click="() => getUserTheme()" v-if="user.loggedIn">
+    <button
+      class="save-button box-shadow border-5"
+      @click="() => getUserTheme()"
+      v-if="user.loggedIn"
+    >
       Get saved theme
     </button>
   </div>
@@ -133,7 +142,7 @@ const saveUserTheme = async () => {
 }
 .add-button {
   width: 100%;
-  margin-top: 4px
+  margin-top: 4px;
 }
 .buttons {
   margin-top: 40px;

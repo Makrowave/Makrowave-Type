@@ -27,13 +27,13 @@ const login = () => {
     })
     .catch((error) => {
       const axiosError = error as AxiosError
-      emit("response", { status: "error", message: axiosError.message })
+      emit('response', { status: 'error', message: axiosError.message })
       console.log(error)
     })
 }
 
 const emit = defineEmits<{
-  (e: 'click'): void,
+  (e: 'click'): void
   (e: 'response', response: Response): void
 }>()
 
@@ -50,11 +50,11 @@ onMounted(() => {
     <form @submit.prevent="login">
       <div class="field">
         Username
-        <input type="text" v-model="username"/>
+        <input type="text" v-model="username" />
       </div>
       <div class="field">
         Password
-        <input type="password" v-model="password"/>
+        <input type="password" v-model="password" />
       </div>
       <button class="button">Sign in</button>
     </form>
