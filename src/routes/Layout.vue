@@ -14,6 +14,7 @@ const theme = useThemeStore()
         <RouterLink to="/practice">Practice</RouterLink>
         <RouterLink to="/leaderboard">Leaderboard</RouterLink>
         <RouterLink to="/settings">Settings</RouterLink>
+        <RouterLink to="/account">Account</RouterLink>
       </nav>
       <UserButton />
     </div>

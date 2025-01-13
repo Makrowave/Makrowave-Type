@@ -19,6 +19,7 @@ axiosInstance.interceptors.response.use(
       }
       axiosError.message = message
     } else if (typeof errorMessage === 'string') axiosError.message = errorMessage
+    if (error.message === '') error.message = 'Unexpected error happened'
     return Promise.reject(axiosError)
   },
 )
