@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="153.22031"
+   height="173.82254"
+   viewBox="0 0 153.22031 173.82254"
+   version="1.1"
+   id="svg1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-13.389844,-3.0887337)">
+    <g
+       id="g2"
+       transform="matrix(1.2016818,0,0,1.0837989,-18.151365,-1.2577838)">
+      <path
+         id="rect1"
+         style="fill:none;fill-rule:evenodd;stroke:var(--ui-text);stroke-width:5;stroke-linejoin:round;stroke-opacity:1"
+         d="M 44.535385,6.5104465 H 135.46461 V 97.439676 H 44.535385 Z"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         id="rect2"
+         style="fill:none;fill-rule:evenodd;stroke:var(--ui-text);stroke-width:5;stroke-linejoin:round;stroke-opacity:1"
+         d="M 135.46461,6.5104465 151.25245,39.388199 V 161.89309 H 28.747555 V 39.388199 L 44.535385,6.5104465"
+         sodipodi:nodetypes="cccccc" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:var(--ui-text);stroke-width:5.7061;stroke-linejoin:round;stroke-opacity:1"
+       d="m 144.634,104.34723 18.97196,69.85454"
+       id="path2" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:var(--ui-text);stroke-width:5.7061;stroke-linejoin:round;stroke-opacity:1"
+       d="M 35.365999,104.34723 16.39405,174.20177"
+       id="path3" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:105.163px;line-height:0.85;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono Light';fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:6.57267;stroke-linejoin:round;stroke-opacity:1"
+       x="42.160923"
+       y="94.525818"
+       id="text3"
+       transform="scale(1.2128943,0.82447416)"><tspan
+         sodipodi:role="line"
+         id="tspan3"
+         x="42.160923"
+         y="94.525818"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Roboto Mono';-inkscape-font-specification:'Roboto Mono Light';fill:var(--ui-text);fill-opacity:1;stroke-width:6.57267">M</tspan></text>
+  </g>
+</svg>
