@@ -33,7 +33,6 @@ const getSessionData = async () => {
 }
 
 onMounted(async () => {
-  theme.saveToStorage()
   theme.readFromStorage()
   await getSessionData()
   theme.changeRootVars()

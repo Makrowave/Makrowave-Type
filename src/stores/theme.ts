@@ -91,6 +91,9 @@ export const useThemeStore = defineStore('theme', () => {
       inactiveText.value = parsedTheme.inactiveText
       activeText.value = parsedTheme.activeText
       gradient.value = parsedTheme.gradient
+    } else {
+      saveToStorage()
+      readFromStorage()
     }
   }
 
