@@ -30,7 +30,7 @@ const keyStyle = computed(() => {
     returnClass.background = theme.inactiveKey
     returnClass.color = theme.inactiveText
   } else {
-    returnClass.color = theme.inactiveText
+    returnClass.color = theme.activeText
   }
   return returnClass
 })

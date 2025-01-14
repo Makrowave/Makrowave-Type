@@ -92,10 +92,6 @@ const saveUserTheme = async () => {
         <span>Active Key Text</span>
         <ModalColorPicker v-model="theme.activeText" />
       </div>
-      <div class="option">
-        <span>Moving Gradient</span>
-        <ModalColorPicker v-model="theme.textIncomplete" />
-      </div>
     </section>
     <section class="box-shadow border-10">
       <h3>Keyboard Gradient</h3>
