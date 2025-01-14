@@ -22,7 +22,7 @@ export const useThemeStore = defineStore('theme', () => {
   //Typing text font color
   const textIncomplete = ref<string>('#767676')
   const textComplete = ref<string>('#38faaf')
-  const textIncorrect = ref<string>('#0f5941')
+  const textIncorrect = ref<string>('#ff5959')
   //Keyboard
   //Inactive
   const inactiveKey = ref<string>('#313131')

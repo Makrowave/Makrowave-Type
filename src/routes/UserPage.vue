@@ -23,7 +23,9 @@ const changeUsername = async () => {
   }
   usernameError.value = ''
   await axios
-    .put('Auth/change-username')
+    .put('Auth/change-username', JSON.stringify({ username: username.value }), {
+      headers: { 'Content-Type': 'application/json' },
+    })
     .then(() => {
       user.loggedIn = false
       user.username = ''
@@ -46,7 +48,9 @@ const changePassword = async () => {
   }
   passwordError.value = ''
   await axios
-    .put('Auth/change-password')
+    .put('Auth/change-password', JSON.stringify({ password: password.value }), {
+      headers: { 'Content-Type': 'application/json' },
+    })
     .then(() => {
       user.loggedIn = false
       user.username = ''
@@ -64,7 +68,15 @@ const deleteAccount = async () => {
   }
   deleteError.value = ''
   await axios
-    .put('Auth/delete')
+    .post('Auth/delete-token', JSON.stringify({ password: deletePassword.value }), {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .catch((error) => {
+      deleteError.value = error.message
+    })
+
+  await axios
+    .delete('Auth/delete')
     .then(() => {
       user.loggedIn = false
       user.username = ''
