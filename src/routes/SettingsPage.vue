@@ -114,18 +114,10 @@ const saveUserTheme = async () => {
     <button class="save-button box-shadow border-5" @click="() => theme.saveToStorage()">
       Save
     </button>
-    <button
-      class="save-button box-shadow border-5"
-      @click="() => saveUserTheme()"
-      v-if="user.loggedIn"
-    >
+    <button class="save-button box-shadow border-5" @click="() => saveUserTheme()" v-if="user.loggedIn">
       Save on all devices
     </button>
-    <button
-      class="save-button box-shadow border-5"
-      @click="() => getUserTheme()"
-      v-if="user.loggedIn"
-    >
+    <button class="save-button box-shadow border-5" @click="() => getUserTheme()" v-if="user.loggedIn">
       Get saved theme
     </button>
   </div>
@@ -138,12 +130,13 @@ const saveUserTheme = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.2s;
 }
+
 .add-button {
   width: 100%;
   margin-top: 4px;
 }
+
 .buttons {
   margin-top: 40px;
   width: 200px;
@@ -157,7 +150,6 @@ const saveUserTheme = async () => {
   margin-top: 20px;
   padding: 4px;
   text-align: center;
-  transition: 0.2s;
 }
 
 .settings {

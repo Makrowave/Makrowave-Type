@@ -26,7 +26,6 @@ const logout = async () => {
 <style scoped>
 a,
 .button {
-  transition: 0.4s;
   min-width: 100px;
   text-align: center;
 }

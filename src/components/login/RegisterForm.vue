@@ -62,13 +62,10 @@ const validateData = () => {
 </script>
 
 <template>
-  <div
-    class="register-wrapper"
-    :style="{
-      border: `1px solid ${theme.uiText}`,
-      boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
-    }"
-  >
+  <div class="register-wrapper" :style="{
+    border: `1px solid ${theme.uiText}`,
+    boxShadow: `10px 10px 0px 0px ${theme.uiText}`,
+  }">
     <form @submit.prevent="validateData">
       <div class="field">
         Username
@@ -101,7 +98,6 @@ const validateData = () => {
 
 button {
   margin-top: 10px;
-  transition: 0.4s;
 }
 
 button:hover {

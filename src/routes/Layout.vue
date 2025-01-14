@@ -15,11 +15,11 @@ const theme = useThemeStore()
     </div>
     <div class="bar">
       <nav>
-        <RouterLink to="/">Type</RouterLink>
-        <RouterLink to="/practice">Practice</RouterLink>
-        <RouterLink to="/leaderboard">Leaderboard</RouterLink>
-        <RouterLink to="/settings">Settings</RouterLink>
-        <RouterLink to="/account">Account</RouterLink>
+        <RouterLink exact-active-class="active" to="/">Daily</RouterLink>
+        <RouterLink exact-active-class="active" to="/practice">Practice</RouterLink>
+        <RouterLink exact-active-class="active" to="/leaderboard">Leaderboard</RouterLink>
+        <RouterLink exact-active-class="active" to="/settings">Settings</RouterLink>
+        <RouterLink exact-active-class="active" to="/account">Account</RouterLink>
       </nav>
       <UserButton />
     </div>
@@ -48,18 +48,23 @@ a:hover {
   color: var(--ui-background);
 }
 
+.active {
+  background: var(--ui-text);
+  color: var(--ui-background);
+}
+
 .svg-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.svg-wrapper > * {
+.svg-wrapper>* {
   height: 30px;
   width: 30px;
   margin-right: 10px;
-  transition: 0.4s;
 }
+
 .name {
   display: flex;
   align-items: center;

@@ -75,7 +75,6 @@ onMounted(() => {
 
 button {
   margin-top: 10px;
-  transition: 0.4s;
 }
 
 button:hover {
