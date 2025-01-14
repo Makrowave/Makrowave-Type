@@ -2,7 +2,10 @@
 import axios from '@/api/axios'
 import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 const user = useUserStore()
+const route = useRoute()
+const router = useRouter()
 const isLogout = ref<boolean>(false)
 
 const logout = async () => {
@@ -11,6 +14,9 @@ const logout = async () => {
     .then(() => {
       user.loggedIn = false
       user.username = ''
+      if (route.fullPath === '/account') {
+        router.replace('/login')
+      }
     })
     .catch((error) => console.log(error))
 }
